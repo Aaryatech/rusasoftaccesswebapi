@@ -13,6 +13,8 @@ public class QualityIniGraphResponse {
 	List<QualityIniCountsForGraph> nirfcRes;
 	
 	List<QualityIniCountsForGraph> theRes;
+	
+	List<QualityIniCountsForGraph> autonomousRes;
 
 	public List<QualityIniCountsForGraph> getNaacRes() {
 		return naacRes;
@@ -45,14 +47,26 @@ public class QualityIniGraphResponse {
 	public void setTheRes(List<QualityIniCountsForGraph> theRes) {
 		this.theRes = theRes;
 	}
+	
+	
+
+	public List<QualityIniCountsForGraph> getAutonomousRes() {
+		return autonomousRes;
+	}
+
+	public void setAutonomousRes(List<QualityIniCountsForGraph> autonomousRes) {
+		this.autonomousRes = autonomousRes;
+	}
 
 	@Override
 	public String toString() {
 		return "QualityIniGraphResponse [naacRes=" + naacRes + ", nbaRes=" + nbaRes + ", nirfcRes=" + nirfcRes
-				+ ", theRes=" + theRes + ", getNaacRes()=" + getNaacRes() + ", getNbaRes()=" + getNbaRes()
-				+ ", getNirfcRes()=" + getNirfcRes() + ", getTheRes()=" + getTheRes() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", theRes=" + theRes + ", autonomousRes=" + autonomousRes + "]";
 	}
+
+	 
+
+	 
 	
 	 
 

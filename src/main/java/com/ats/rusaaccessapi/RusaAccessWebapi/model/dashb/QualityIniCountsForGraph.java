@@ -7,7 +7,7 @@ import javax.persistence.Id;
 public class QualityIniCountsForGraph {
 	
 	@Id
-	private int yearId;
+	private String yearId;
 	
 	private String academicYear;
 	
@@ -17,11 +17,11 @@ public class QualityIniCountsForGraph {
 	
 	private int count3;
 
-	public int getYearId() {
+	public String getYearId() {
 		return yearId;
 	}
 
-	public void setYearId(int yearId) {
+	public void setYearId(String yearId) {
 		this.yearId = yearId;
 	}
 
@@ -60,17 +60,8 @@ public class QualityIniCountsForGraph {
 	@Override
 	public String toString() {
 		return "QualityIniCountsForGraph [yearId=" + yearId + ", academicYear=" + academicYear + ", count1=" + count1
-				+ ", count2=" + count2 + ", count3=" + count3 + ", getYearId()=" + getYearId() + ", getAcademicYear()="
-				+ getAcademicYear() + ", getCount1()=" + getCount1() + ", getCount2()=" + getCount2() + ", getCount3()="
-				+ getCount3() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ ", count2=" + count2 + ", count3=" + count3 + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
+
 
 }

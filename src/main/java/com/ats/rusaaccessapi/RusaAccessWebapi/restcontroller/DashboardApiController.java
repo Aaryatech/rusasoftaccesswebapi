@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
- import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.AcademicYear;
@@ -52,16 +52,17 @@ public class DashboardApiController {
 	@Autowired
 	SettingKeyValueRepo settingKeyValueRepo;
 
-	@RequestMapping(value = { "/getAllQualIniGraph" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/getAllQualIniGraph1" }, method = RequestMethod.GET)
 	public @ResponseBody QualityIniGraphResponse getAllQualIniGraph() {
 
 		QualityIniGraphResponse res = new QualityIniGraphResponse();
 
-		List<QualityIniCountsForGraph> allQualGraph = new ArrayList<>();
+		List<QualityIniCountsForGraph> qualityInitiative = new ArrayList<QualityIniCountsForGraph>();
 
 		List<AcademicYear> acYrList = new ArrayList<>();
 		SettingKeyValue setKey = new SettingKeyValue();
 		int stkId = 0;
+		 
 		try {
 
 			List<Integer> lastFiveYears = new ArrayList<>();
@@ -69,46 +70,58 @@ public class DashboardApiController {
 			acYrList = academicYearRepo.getLastFiveYears();
 
 			for (int i = 0; i < acYrList.size(); i++) {
-				// System.err.println("acYrList" + acYrList.get(i).toString());
 				lastFiveYears.add(acYrList.get(i).getYearId());
 			}
 
 			// For Naac
-			//no_of_reg_inst-count1,no_of_naac_accr_inst-count2,0-count3
-			
+			// no_of_reg_inst-count1,no_of_naac_accr_inst-count2,0-count3
+
 			setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("NAAC", 1);
 			stkId = setKey.getIntValue();
-			allQualGraph = qualityIniCountsForGraphRepo.getGraphForNaac(stkId, lastFiveYears);
-			res.setNaacRes(allQualGraph);
-			
-			//for NBA
-			//no_of_reg_inst-count1,no_of_nba_accr_inst-count2,no_of_nba_applicable_inst-count3
-			
+			System.err.println("Id NAAC " + stkId);
+			qualityInitiative = qualityIniCountsForGraphRepo.getGraphForNaac(stkId, lastFiveYears);
+			System.err.println(stkId + "=" + qualityInitiative);
+			res.setNaacRes(qualityInitiative);
+
+			// for NBA
+			// no_of_reg_inst-count1,no_of_nba_accr_inst-count2,no_of_nba_applicable_inst-count3
+
 			setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("NBA", 1);
 			stkId = setKey.getIntValue();
-			allQualGraph = qualityIniCountsForGraphRepo.getGraphForNba(stkId, lastFiveYears);
-			res.setNbaRes(allQualGraph);
-			
-			//for THE
-			//no_of_reg_inst-count1,no_of_the_accr_inst-count2,0-count3
-			
+			System.err.println("Id NBA " + stkId);
+
+			qualityInitiative = qualityIniCountsForGraphRepo.getGraphForNba(stkId, lastFiveYears);
+			System.err.println(stkId + "=" + qualityInitiative);
+			res.setNbaRes(qualityInitiative);
+
+			// for THE
+			// no_of_reg_inst-count1,no_of_the_accr_inst-count2,0-count3
+
 			setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("THE", 1);
 			stkId = setKey.getIntValue();
-			allQualGraph = qualityIniCountsForGraphRepo.getGraphForThe(stkId, lastFiveYears);
-			res.setTheRes(allQualGraph);
-			
-			
-			//for NIRF
-			//no_of_reg_inst-count1,no_of_nirf_accr_inst-count2,0-count3
-			
+			System.err.println("Id THE" + stkId);
+			qualityInitiative = qualityIniCountsForGraphRepo.getGraphForThe(stkId, lastFiveYears);
+			System.err.println(stkId + "=" + qualityInitiative);
+			res.setTheRes(qualityInitiative);
+
+			// for NIRF
+			// no_of_reg_inst-count1,no_of_nirf_accr_inst-count2,0-count3
+
 			setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("NIRF", 1);
 			stkId = setKey.getIntValue();
-			allQualGraph = qualityIniCountsForGraphRepo.getGraphForNirf(stkId, lastFiveYears);
-			res.setNirfcRes(allQualGraph);
+			System.err.println("Id NIRF " + stkId);
+			qualityInitiative = qualityIniCountsForGraphRepo.getGraphForNirf(stkId, lastFiveYears);
+			System.err.println(stkId + "=" + qualityInitiative);
+			res.setNirfcRes(qualityInitiative);
+
+			//for autonomous 
+			// no_of_reg_inst-count1,no_of_auto_inst-count2,0-count3
+			qualityInitiative = qualityIniCountsForGraphRepo.getGraphForAutonomous(lastFiveYears);
+ 			System.err.println("allQualGraph " +qualityInitiative.toString());
+			res.setAutonomousRes(qualityInitiative);
 
 		} catch (Exception e) {
-
-			System.err.println("Exce in facPartInVarBodies R2 " + e.getMessage());
+ 			System.err.println("Exce in facPartInVarBodies R2 " + e.getMessage());
 			e.printStackTrace();
 
 		}
