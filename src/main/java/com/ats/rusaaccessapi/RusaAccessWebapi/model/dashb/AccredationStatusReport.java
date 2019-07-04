@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class AccredationStatusReport {
 
@@ -13,9 +15,9 @@ public class AccredationStatusReport {
 
 	private String instituteName;
 
-	private Date quality_fromdt;
+	private Date qualityFromdt;
 
-	private Date quality_todt;
+	private Date qualityTodt;
 
 	private String aisheCode;
 
@@ -37,21 +39,7 @@ public class AccredationStatusReport {
 		this.instituteName = instituteName;
 	}
 
-	public Date getQuality_fromdt() {
-		return quality_fromdt;
-	}
-
-	public void setQuality_fromdt(Date quality_fromdt) {
-		this.quality_fromdt = quality_fromdt;
-	}
-
-	public Date getQuality_todt() {
-		return quality_todt;
-	}
-
-	public void setQuality_todt(Date quality_todt) {
-		this.quality_todt = quality_todt;
-	}
+	 
 
 	public String getAisheCode() {
 		return aisheCode;
@@ -69,15 +57,32 @@ public class AccredationStatusReport {
 		this.qualityInitiativeName = qualityInitiativeName;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+ 	public Date getQualityFromdt() {
+		return qualityFromdt;
+	}
+
+	public void setQualityFromdt(Date qualityFromdt) {
+		this.qualityFromdt = qualityFromdt;
+	}
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+ 	public Date getQualityTodt() {
+		return qualityTodt;
+	}
+
+	public void setQualityTodt(Date qualityTodt) {
+		this.qualityTodt = qualityTodt;
+	}
+
 	@Override
 	public String toString() {
 		return "AccredationStatusReport [instituteId=" + instituteId + ", instituteName=" + instituteName
-				+ ", quality_fromdt=" + quality_fromdt + ", quality_todt=" + quality_todt + ", aisheCode=" + aisheCode
-				+ ", qualityInitiativeName=" + qualityInitiativeName + ", getInstituteId()=" + getInstituteId()
-				+ ", getInstituteName()=" + getInstituteName() + ", getQuality_fromdt()=" + getQuality_fromdt()
-				+ ", getQuality_todt()=" + getQuality_todt() + ", getAisheCode()=" + getAisheCode()
-				+ ", getQualityInitiativeName()=" + getQualityInitiativeName() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", qualityFromdt=" + qualityFromdt + ", qualityTodt=" + qualityTodt + ", aisheCode=" + aisheCode
+				+ ", qualityInitiativeName=" + qualityInitiativeName + "]";
 	}
+ 
+	
+	
 
 }

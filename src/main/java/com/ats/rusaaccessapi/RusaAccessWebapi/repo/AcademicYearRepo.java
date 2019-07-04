@@ -14,7 +14,8 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.AcademicYear;
 
 public interface AcademicYearRepo extends JpaRepository<AcademicYear, Integer>  {
 
-	 
+	List<AcademicYear> findByTypeAndDelStatusOrderByYearIdDesc(int type, int i);
+
 	
 	@Query(value=" SELECT * FROM m_academic_year where m_academic_year.seq_no <= " + 
 			" (select m_academic_year.seq_no from m_academic_year where m_academic_year.is_current=1)" + 

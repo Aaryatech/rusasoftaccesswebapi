@@ -12,17 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.AcademicYear;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.SettingKeyValue;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AccredationStatusReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AntiRaggingHarresmentReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.InstituteAccredationReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AccredationStatusReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AntiRaggingHarresmentReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
-
+ 
 @RestController
 public class ReportApiController {
 
@@ -71,13 +73,18 @@ public class ReportApiController {
 	AccredationStatusReportRepo accredationStatusReportRepo;
 
 	@RequestMapping(value = { "/getAllAccredationStatusReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<AccredationStatusReport> getAllAccredationStatusReport(@RequestParam int qualId) {
+	public @ResponseBody List<AccredationStatusReport> getAllAccredationStatusReport(@RequestParam String  qualId) {
 
 		List<AccredationStatusReport> facPartInVarBodies = new ArrayList<>();
 
 		try {
-
-			facPartInVarBodies = accredationStatusReportRepo.getAccredationStat(qualId);
+			SettingKeyValue setKey = new SettingKeyValue();
+			int stkIdNacc = 0;
+			setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus(qualId, 1);
+			stkIdNacc = setKey.getIntValue();
+		 
+		 
+			facPartInVarBodies = accredationStatusReportRepo.getAccredationStat(stkIdNacc);
 			// System.err.println("List=" + facPartInVarBodies);
 
 		} catch (Exception e) {
@@ -146,5 +153,26 @@ public class ReportApiController {
 		return facPartInVarBodies;
 
 	}
+	
+	@Autowired
+	AcademicYearRepo yearRepo;
+
+	@RequestMapping(value = { "/getAcademicYearListByTypeId" }, method = RequestMethod.POST)
+	public @ResponseBody List<AcademicYear> getQuolificationList(@RequestParam int type) {
+
+		List<AcademicYear> yearList = new ArrayList<>();
+
+		try {
+			yearList = yearRepo.findByTypeAndDelStatusOrderByYearIdDesc(type, 1);
+
+		} catch (Exception e) {
+			System.err.println("Exce in getAllYearList  " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return yearList;
+
+	}
+	
 
 }
