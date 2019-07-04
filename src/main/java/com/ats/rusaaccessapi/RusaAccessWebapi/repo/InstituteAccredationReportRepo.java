@@ -16,19 +16,19 @@ public interface InstituteAccredationReportRepo extends JpaRepository<InstituteA
 	 		"    COALESCE(\n" + 
 	 		"        (\n" + 
 	 		"        SELECT\n" + 
-	 		"            'YES'\n" + 
+	 		"            'Yes'\n" + 
 	 		"        FROM\n" + 
 	 		"            t_institute_quality,\n" + 
 	 		"            m_quality_initiatives\n" + 
 	 		"        WHERE\n" + 
 	 		"            t_institute_quality.institute_id = m_institute.institute_id AND t_institute_quality.is_certi_obt=1 AND t_institute_quality.quality_initiative_id = m_quality_initiatives.quality_initiative_id AND t_institute_quality.del_status = 1 AND t_institute_quality.is_active = 1 AND t_institute_quality.quality_initiative_id =:stkIdNba \n" + 
 	 		"    ),\n" + 
-	 		"    'NO'\n" + 
+	 		"    'No'\n" + 
 	 		"    ) AS 'NBA', \n" + 
 	 		"    COALESCE(\n" + 
 	 		"        (\n" + 
 	 		"        SELECT\n" + 
-	 		"           'YES'\n" + 
+	 		"           'Yes'\n" + 
 	 		"        FROM\n" + 
 	 		"            t_institute_quality,\n" + 
 	 		"            m_quality_initiatives\n" + 
