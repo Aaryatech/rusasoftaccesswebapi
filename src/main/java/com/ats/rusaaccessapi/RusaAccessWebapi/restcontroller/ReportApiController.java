@@ -111,7 +111,7 @@ public class ReportApiController {
 		SettingKeyValue setKey = new SettingKeyValue();
 
 		setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("ReportUGPG", 1);
-		System.err.println("stk ids :" + setKey.toString());
+		//System.err.println("stk ids :" + setKey.toString());
 
 		try {
 
@@ -215,9 +215,9 @@ public class ReportApiController {
 
 				institutesList.add(Integer.parseInt(instList.get(i)));
 			}
-			System.err.println("Inst List=" + institutesList.toString());
+			//System.err.println("Inst List=" + institutesList.toString());
 			facPartInVarBodies = valueAddedCourseReportRepo.getvalueAddedCoursesDet(institutesList,yearId);
-			System.err.println("List=" + facPartInVarBodies);
+			//System.err.println("List=" + facPartInVarBodies);
 
 		} catch (Exception e) {
 
