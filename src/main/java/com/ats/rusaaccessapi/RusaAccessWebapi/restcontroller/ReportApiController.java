@@ -19,6 +19,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AntiRaggingHarresmentR
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.CompetitiveExamReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.ValueAddedCourseReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.InstituteAccredationReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
@@ -26,7 +27,8 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AccredationStatusReport
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AntiRaggingHarresmentReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.CompetitiveExamReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
- 
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.ValueAddedCourseReportRepo;
+
 @RestController
 public class ReportApiController {
 
@@ -75,7 +77,7 @@ public class ReportApiController {
 	AccredationStatusReportRepo accredationStatusReportRepo;
 
 	@RequestMapping(value = { "/getAllAccredationStatusReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<AccredationStatusReport> getAllAccredationStatusReport(@RequestParam String  qualId) {
+	public @ResponseBody List<AccredationStatusReport> getAllAccredationStatusReport(@RequestParam String qualId) {
 
 		List<AccredationStatusReport> facPartInVarBodies = new ArrayList<>();
 
@@ -84,8 +86,7 @@ public class ReportApiController {
 			int stkIdNacc = 0;
 			setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus(qualId, 1);
 			stkIdNacc = setKey.getIntValue();
-		 
-		 
+
 			facPartInVarBodies = accredationStatusReportRepo.getAccredationStat(stkIdNacc);
 			// System.err.println("List=" + facPartInVarBodies);
 
@@ -111,10 +112,9 @@ public class ReportApiController {
 
 		setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("ReportUGPG", 1);
 		System.err.println("stk ids :" + setKey.toString());
-		 
+
 		try {
 
-			 
 			List<Integer> typeIds = Stream.of(setKey.getStringValue().split(",")).map(Integer::parseInt)
 					.collect(Collectors.toList());
 			facPartInVarBodies = placementUgPgStudRepo.getUgpgRep(typeIds);
@@ -130,8 +130,7 @@ public class ReportApiController {
 		return facPartInVarBodies;
 
 	}
-	
-	
+
 	@Autowired
 	AntiRaggingHarresmentReportRepo antiRaggingHarresmentReportRepo;
 
@@ -155,7 +154,7 @@ public class ReportApiController {
 		return facPartInVarBodies;
 
 	}
-	
+
 	@Autowired
 	AcademicYearRepo yearRepo;
 
@@ -175,8 +174,6 @@ public class ReportApiController {
 		return yearList;
 
 	}
-	
-	
 
 	@Autowired
 	CompetitiveExamReportRepo competitiveExamReportRepo;
@@ -201,6 +198,36 @@ public class ReportApiController {
 		return facPartInVarBodies;
 
 	}
-	
+
+	@Autowired
+	ValueAddedCourseReportRepo valueAddedCourseReportRepo;
+
+	@RequestMapping(value = { "/getvalueAddedCourseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<ValueAddedCourseReport> getvalueAddedCourseReport(@RequestParam List<String> instList) {
+
+		List<ValueAddedCourseReport> facPartInVarBodies = new ArrayList<>();
+
+		try {
+
+			List<Integer> institutesList = new ArrayList<>();
+
+			for (int i = 0; i < instList.size(); i++) {
+
+				institutesList.add(Integer.parseInt(instList.get(i)));
+			}
+			System.err.println("Inst List=" + institutesList.toString());
+			facPartInVarBodies = valueAddedCourseReportRepo.getvalueAddedCoursesDet(institutesList);
+			System.err.println("List=" + facPartInVarBodies);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in facPartInVarBodies R2 " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return facPartInVarBodies;
+
+	}
 
 }
