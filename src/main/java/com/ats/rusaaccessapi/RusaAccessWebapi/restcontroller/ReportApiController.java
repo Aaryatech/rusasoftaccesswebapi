@@ -18,6 +18,8 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AccredationStatusRepor
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AntiRaggingHarresmentReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.CompetitiveExamReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.MaleFemaleRatioResponse;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.MaleFemaleRatioTemp;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.ValueAddedCourseReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
@@ -26,6 +28,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AccredationStatusReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AntiRaggingHarresmentReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.CompetitiveExamReportRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.MaleFemaleRatioTempRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.ValueAddedCourseReportRepo;
 
@@ -229,5 +232,37 @@ public class ReportApiController {
 		return facPartInVarBodies;
 
 	}
+	@Autowired
+	MaleFemaleRatioTempRepo maleFemaleRatioTempRepo;
+
+	@RequestMapping(value = { "/getMaleFemaleRatioReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<MaleFemaleRatioResponse> getMaleFemaleRatioReport(@RequestParam List<String> instList,@RequestParam int yearId) {
+
+		List<MaleFemaleRatioResponse> finalRes = new ArrayList<>();
+		List<MaleFemaleRatioTemp> temp = new ArrayList<>();
+
+		try {
+
+			List<Integer> institutesList = new ArrayList<>();
+
+			for (int i = 0; i < instList.size(); i++) {
+
+				institutesList.add(Integer.parseInt(instList.get(i)));
+			}
+			 
+			temp = maleFemaleRatioTempRepo.getMaleFemaleFacRep(1);
+			 
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in facPartInVarBodies R2 " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return finalRes;
+
+	}
+
 
 }
