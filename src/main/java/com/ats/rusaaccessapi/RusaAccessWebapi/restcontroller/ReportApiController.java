@@ -16,6 +16,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.AcademicYear;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.SettingKeyValue;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AccredationStatusReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AntiRaggingHarresmentReport;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.CompetitiveExamReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
@@ -23,6 +24,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.InstituteAccredationReportRep
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AccredationStatusReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AntiRaggingHarresmentReportRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.CompetitiveExamReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
  
 @RestController
@@ -171,6 +173,32 @@ public class ReportApiController {
 		}
 
 		return yearList;
+
+	}
+	
+	
+
+	@Autowired
+	CompetitiveExamReportRepo competitiveExamReportRepo;
+
+	@RequestMapping(value = { "/getCompetitiveExamReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<CompetitiveExamReport> getCompetitiveExamReport(@RequestParam int yearId) {
+
+		List<CompetitiveExamReport> facPartInVarBodies = new ArrayList<>();
+
+		try {
+
+			facPartInVarBodies = competitiveExamReportRepo.getCompetitiveExamDet(yearId);
+			// System.err.println("List=" + facPartInVarBodies);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in facPartInVarBodies R2 " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return facPartInVarBodies;
 
 	}
 	
