@@ -144,39 +144,36 @@ public class RestApiController {
 	
 	
 	@RequestMapping(value = { "/approveInstitutes" }, method = RequestMethod.POST)
-	public @ResponseBody Info approveInstitutes(@RequestParam List<Integer> instIdList) {
+	public @ResponseBody Info approveInstitutes(@RequestParam List<Integer> instIdList, @RequestParam int aprUserId) {
 
 		Info info = new Info();
 		try {
 			int res = 0;
 
 			for (int i = 0; i < instIdList.size(); i++) {
-System.err.println("First Inst " +instIdList.get(i));
-				UserLogin user = new UserLogin();
+
+				//UserLogin user = new UserLogin();
 
 				String userName = getAlphaNumericString(7);
 				String pass = getAlphaNumericString(7);
 				System.err.println("username  " + userName + "\n  pass  " + pass);
 
-				user.setExInt1(0);
-				user.setExInt2(0);
-				user.setExVar1("Na");
-				user.setExVar2("Na");
-				user.setIsBlock(1);
-				user.setPass(pass);
-
-				Principal princi = pincipalRepo.findByInstituteId(instIdList.get(i));
-				System.err.println("prinId----------"+princi.toString());
-
-				user.setRegPrimaryKey(princi.getPrincipalId());// principla primary key
-
-				user.setExInt2(instIdList.get(i)); //
-				user.setRoleId(2);// 2 for Principal
-				user.setUserName(princi.getEmail());
-				user.setUserType(1);// 2 for Principal user Default
-
-				UserLogin userRes = userServiceRepo.save(user);
-
+				/*
+				 * user.setExInt1(0); user.setExInt2(0); user.setExVar1("Na");
+				 * user.setExVar2("Na"); user.setIsBlock(1); user.setPass(pass);
+				 * 
+				 * Principal princi = pincipalRepo.findByInstituteId(instIdList.get(i));
+				 * 
+				 * user.setRegPrimaryKey(princi.getPrincipalId());// principla primary key
+				 * System.err.println("prinId----------"+princi);
+				 * 
+				 * user.setExInt2(instIdList.get(i)); // user.setRoleId(2);// 2 for Principal
+				 * user.setUserName(princi.getEmail()); user.setUserType(1);// 2 for Principal
+				 * user Default
+				 * 
+				 * UserLogin userRes = userServiceRepo.save(user);
+				 * 
+				 */	
 				Institute insResp = null;
 
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -185,19 +182,26 @@ System.err.println("First Inst " +instIdList.get(i));
 
 				Staff staff = staffRepo.findByDelStatusAndIsActiveAndIsBlockedAndInstituteId(1, 1, 0,
 						instIdList.get(i));
-				staff.setPassword(pass);
+				System.out.println("Pass=="+staff+"-------------"+pass);
+				staff.setPassword(getAlphaNumericString(7));
 				staffRepo.save(staff);
 
 				insResp = instituteRepo.findByInstituteId(instIdList.get(i));
 
-				//insResp.setCheckerUserId(aprUserId);
+				insResp.setCheckerUserId(aprUserId);
 				insResp.setCheckerDatetime(curDateTime);
+				insResp.setExInt2(1); // is approved
 				instituteRepo.save(insResp);
 
-				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, princi.getEmail(), mailsubject,
-						princi.getEmail(), userRes.getPass());
+				//Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, princi.getEmail(), mailsubject,
+						//princi.getEmail(), userRes.getPass());
 
-				Info smsRes = EmailUtility.sendMsg(princi.getEmail(), userRes.getPass(), princi.getPhoneNo());
+				//Info smsRes = EmailUtility.sendMsg(princi.getEmail(), userRes.getPass(), princi.getPhoneNo());
+
+				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, staff.getEmail(), mailsubject,
+						staff.getEmail(), staff.getPassword());
+
+				Info smsRes = EmailUtility.sendMsg(staff.getEmail(), staff.getPassword(), staff.getContactNo());
 
 				final String emailSMTPserver = "smtp.gmail.com";
 				final String emailSMTPPort = "587";
@@ -236,7 +240,7 @@ System.err.println("First Inst " +instIdList.get(i));
 					mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
 					mimeMessage.setSubject(subject);
 					mimeMessage.setText(mes);
-					mimeMessage.setText(" User Name " + userRes.getUserName() + "\n Password " + userRes.getPass());
+					mimeMessage.setText(" User Name " + staff.getEmail() + "\n Password " + staff.getPassword());
 
 					// Transport.send(mimeMessage);
 				} catch (Exception e) {
@@ -256,7 +260,7 @@ System.err.println("First Inst " +instIdList.get(i));
 			}
 		} catch (Exception e) {
 
-			System.err.println("Exce in getAllInstitutes Institute " + e.getMessage());
+			System.err.println("Exce in approveInstitutes RestApiController " + e.getMessage());
 			e.printStackTrace();
 			info.setError(true);
 			info.setMessage("excep");
