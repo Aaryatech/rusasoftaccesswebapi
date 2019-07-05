@@ -7,7 +7,7 @@ import javax.persistence.Id;
 public class ValueAddedCourseReport {
 
 	@Id
- 	private int valueAddedCourseId;
+	private int valueAddedCourseId;
 
 	private int instituteId;
 
@@ -20,6 +20,8 @@ public class ValueAddedCourseReport {
 	private int noOfStudentsCompletedCourse;
 
 	private String courseCode;
+	
+	private String  academicYear;
 
 	public int getValueAddedCourseId() {
 		return valueAddedCourseId;
@@ -77,14 +79,28 @@ public class ValueAddedCourseReport {
 		this.courseCode = courseCode;
 	}
 
+	public String getAcademicYear() {
+		return academicYear;
+	}
+
+	public void setAcademicYear(String academicYear) {
+		this.academicYear = academicYear;
+	}
+
 	@Override
 	public String toString() {
 		return "ValueAddedCourseReport [valueAddedCourseId=" + valueAddedCourseId + ", instituteId=" + instituteId
 				+ ", instituteName=" + instituteName + ", noOfStudentsEnrolled=" + noOfStudentsEnrolled
 				+ ", valueAddedCourseName=" + valueAddedCourseName + ", noOfStudentsCompletedCourse="
-				+ noOfStudentsCompletedCourse + ", courseCode=" + courseCode + "]";
+				+ noOfStudentsCompletedCourse + ", courseCode=" + courseCode + ", academicYear=" + academicYear
+				+ ", getValueAddedCourseId()=" + getValueAddedCourseId() + ", getInstituteId()=" + getInstituteId()
+				+ ", getInstituteName()=" + getInstituteName() + ", getNoOfStudentsEnrolled()="
+				+ getNoOfStudentsEnrolled() + ", getValueAddedCourseName()=" + getValueAddedCourseName()
+				+ ", getNoOfStudentsCompletedCourse()=" + getNoOfStudentsCompletedCourse() + ", getCourseCode()="
+				+ getCourseCode() + ", getAcademicYear()=" + getAcademicYear() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
-	
+
 	
 
 }

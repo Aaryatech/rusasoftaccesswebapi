@@ -19,6 +19,9 @@ public class InstituteAccredationReport {
 	
 
 	private String THE;
+	
+	private String districtName;
+	
 
 
 	public int getInstituteId() {
@@ -81,19 +84,23 @@ public class InstituteAccredationReport {
 	}
 
 
+	public String getDistrictName() {
+		return districtName;
+	}
+
+
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
+
+
 	@Override
 	public String toString() {
 		return "InstituteAccredationReport [instituteId=" + instituteId + ", instituteName=" + instituteName + ", NBA="
-				+ NBA + ", NAAC=" + NAAC + ", NIRF=" + NIRF + ", THE=" + THE + "]";
+				+ NBA + ", NAAC=" + NAAC + ", NIRF=" + NIRF + ", THE=" + THE + ", districtName=" + districtName + "]";
 	}
 
- 
-	
-	
-	
-	
-	
-	
-	
+
+	 
 
 }

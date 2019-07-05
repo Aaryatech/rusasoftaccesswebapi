@@ -203,7 +203,7 @@ public class ReportApiController {
 	ValueAddedCourseReportRepo valueAddedCourseReportRepo;
 
 	@RequestMapping(value = { "/getvalueAddedCourseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<ValueAddedCourseReport> getvalueAddedCourseReport(@RequestParam List<String> instList) {
+	public @ResponseBody List<ValueAddedCourseReport> getvalueAddedCourseReport(@RequestParam List<String> instList,@RequestParam int yearId) {
 
 		List<ValueAddedCourseReport> facPartInVarBodies = new ArrayList<>();
 
@@ -216,7 +216,7 @@ public class ReportApiController {
 				institutesList.add(Integer.parseInt(instList.get(i)));
 			}
 			System.err.println("Inst List=" + institutesList.toString());
-			facPartInVarBodies = valueAddedCourseReportRepo.getvalueAddedCoursesDet(institutesList);
+			facPartInVarBodies = valueAddedCourseReportRepo.getvalueAddedCoursesDet(institutesList,yearId);
 			System.err.println("List=" + facPartInVarBodies);
 
 		} catch (Exception e) {

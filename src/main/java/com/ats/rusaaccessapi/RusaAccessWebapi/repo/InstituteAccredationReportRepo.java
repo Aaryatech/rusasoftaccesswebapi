@@ -12,7 +12,7 @@ public interface InstituteAccredationReportRepo extends JpaRepository<InstituteA
 
 	 @Query(value="SELECT\n" + 
 	 		"    m_institute.institute_id,\n" + 
-	 		"    m_institute.institute_name,\n" + 
+	 		"    m_institute.institute_name, m_institute.district as district_name, \n" + 
 	 		"    COALESCE(\n" + 
 	 		"        (\n" + 
 	 		"        SELECT\n" + 
