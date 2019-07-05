@@ -1,8 +1,12 @@
 package com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class MaleFemaleRatioResponse {
 	
+	@Id
 	private int instituteId;
 	
 	private int maleFaculty;

@@ -1,6 +1,7 @@
 package com.ats.rusaaccessapi.RusaAccessWebapi.restcontroller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,8 +20,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AntiRaggingHarresmentR
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.CompetitiveExamReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.MaleFemaleRatioResponse;
-import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.MaleFemaleRatioTemp;
-import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
+ import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.ValueAddedCourseReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.InstituteAccredationReportRepo;
@@ -28,8 +28,8 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AccredationStatusReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AntiRaggingHarresmentReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.CompetitiveExamReportRepo;
-import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.MaleFemaleRatioTempRepo;
-import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.MaleFemaleRatioResponseRepo;
+ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.ValueAddedCourseReportRepo;
 
 @RestController
@@ -114,7 +114,7 @@ public class ReportApiController {
 		SettingKeyValue setKey = new SettingKeyValue();
 
 		setKey = settingKeyValueRepo.findBySettingKeyAndDelStatus("ReportUGPG", 1);
-		//System.err.println("stk ids :" + setKey.toString());
+		// System.err.println("stk ids :" + setKey.toString());
 
 		try {
 
@@ -206,7 +206,8 @@ public class ReportApiController {
 	ValueAddedCourseReportRepo valueAddedCourseReportRepo;
 
 	@RequestMapping(value = { "/getvalueAddedCourseReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<ValueAddedCourseReport> getvalueAddedCourseReport(@RequestParam List<String> instList,@RequestParam int yearId) {
+	public @ResponseBody List<ValueAddedCourseReport> getvalueAddedCourseReport(@RequestParam List<String> instList,
+			@RequestParam int yearId) {
 
 		List<ValueAddedCourseReport> facPartInVarBodies = new ArrayList<>();
 
@@ -218,9 +219,9 @@ public class ReportApiController {
 
 				institutesList.add(Integer.parseInt(instList.get(i)));
 			}
-			//System.err.println("Inst List=" + institutesList.toString());
-			facPartInVarBodies = valueAddedCourseReportRepo.getvalueAddedCoursesDet(institutesList,yearId);
-			//System.err.println("List=" + facPartInVarBodies);
+			// System.err.println("Inst List=" + institutesList.toString());
+			facPartInVarBodies = valueAddedCourseReportRepo.getvalueAddedCoursesDet(institutesList, yearId);
+			// System.err.println("List=" + facPartInVarBodies);
 
 		} catch (Exception e) {
 
@@ -232,26 +233,87 @@ public class ReportApiController {
 		return facPartInVarBodies;
 
 	}
+
+	
+	// Look into this
 	@Autowired
-	MaleFemaleRatioTempRepo maleFemaleRatioTempRepo;
+	MaleFemaleRatioResponseRepo maleFemaleRatioResponseRepo;
 
 	@RequestMapping(value = { "/getMaleFemaleRatioReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<MaleFemaleRatioResponse> getMaleFemaleRatioReport(@RequestParam List<String> instList,@RequestParam int yearId) {
+	public @ResponseBody List<MaleFemaleRatioResponse> getMaleFemaleRatioReport(
+			@RequestParam int yearId) {
 
-		List<MaleFemaleRatioResponse> finalRes = new ArrayList<>();
-		List<MaleFemaleRatioTemp> temp = new ArrayList<>();
+		List<MaleFemaleRatioResponse> instRes = new ArrayList<>();
+		
+		//fac
+		List<MaleFemaleRatioResponse> listMale = new ArrayList<>();
+		List<MaleFemaleRatioResponse> listFeMale = new ArrayList<>();
+		List<MaleFemaleRatioResponse> listTrans = new ArrayList<>();
+		instRes = maleFemaleRatioResponseRepo.getInstList();
+		listMale = maleFemaleRatioResponseRepo.getFacultyList(0);
+	
+		
 
 		try {
+			for (int i = 0; i < instRes.size(); i++) {
 
-			List<Integer> institutesList = new ArrayList<>();
+				for (int j = 0; j < listMale.size(); j++) {
+					if (instRes.get(i).getInstituteId() == listMale.get(j).getInstituteId()) {
 
-			for (int i = 0; i < instList.size(); i++) {
+						instRes.get(i).setMaleFaculty(listMale.get(j).getMaleFaculty());
+						break;
+					}
 
-				institutesList.add(Integer.parseInt(instList.get(i)));
+				} // end of male for
 			}
-			 
-			temp = maleFemaleRatioTempRepo.getMaleFemaleFacRep(1);
-			 
+			listFeMale = maleFemaleRatioResponseRepo.getFacultyList(1);
+			for (int i = 0; i < instRes.size(); i++) {
+
+				for (int j = 0; j < listFeMale.size(); j++) {
+					if (instRes.get(i).getInstituteId() == listFeMale.get(j).getInstituteId()) {
+
+						instRes.get(i).setFemaleFaculty(listFeMale.get(j).getMaleFaculty());
+						break;
+					}
+
+				} // end of female for
+			}
+
+			listTrans = maleFemaleRatioResponseRepo.getFacultyList(2);
+			for (int i = 0; i < instRes.size(); i++) {
+
+				for (int j = 0; j < listTrans.size(); j++) {
+					if (instRes.get(i).getInstituteId() == listTrans.get(j).getInstituteId()) {
+
+						instRes.get(i).setTransFaculty(listTrans.get(j).getMaleFaculty());
+						break;
+					}
+
+				} // end of trans for
+			}
+			//
+			
+			
+			List<MaleFemaleRatioResponse> listStud = new ArrayList<>();
+			listStud = maleFemaleRatioResponseRepo.getStudentList(yearId);
+			
+			for (int i = 0; i < instRes.size(); i++) {
+
+				for (int j = 0; j < listStud.size(); j++) {
+					if (instRes.get(i).getInstituteId() == listStud.get(j).getInstituteId()) {
+
+						instRes.get(i).setFemaleStudent(listStud.get(j).getFemaleStudent());
+						instRes.get(i).setMaleStudent(listStud.get(j).getMaleStudent());
+						instRes.get(i).setTransStudent(listStud.get(j).getTransStudent());
+
+						break;
+					}
+
+				} // end of trans for
+			}
+			
+			
+			
 
 		} catch (Exception e) {
 
@@ -260,9 +322,8 @@ public class ReportApiController {
 
 		}
 
-		return finalRes;
+		return instRes;
 
 	}
-
 
 }
