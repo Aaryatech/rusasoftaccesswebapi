@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.CurricularActivityCnts;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.FacultyResearchDetail;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.GrantRecivResrchReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.SubjectResrchReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.CurricularActivityCntsRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.FacultyResearchDetailRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.GrantRecivResrchReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.SubjectResrchReportRepo;
 
@@ -105,7 +107,22 @@ public class RusaAdReportApiContrl {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-			return null;
+			return subRsrchList;
+		
+	}
+	
+	@Autowired
+	FacultyResearchDetailRepo facResrchRepo;
+	@RequestMapping(value = { "/getFacultyResrchRep" }, method = RequestMethod.POST)
+		public List<FacultyResearchDetail> getFacultyResrchRep(@RequestParam int instId) {
+		
+		List<FacultyResearchDetail> facRsrchList=new ArrayList<FacultyResearchDetail>();
+		try {
+			facRsrchList = facResrchRepo.getFacultyResrchReport(instId);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+			return facRsrchList;
 		
 	}
 		

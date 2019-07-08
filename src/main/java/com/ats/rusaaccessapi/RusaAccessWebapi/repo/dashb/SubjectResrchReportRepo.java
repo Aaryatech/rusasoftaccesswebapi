@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.SubjectResrchReport;
 
@@ -24,7 +25,7 @@ public interface SubjectResrchReportRepo extends JpaRepository<SubjectResrchRepo
 			"   institute_research_center.year_id=m_academic_year.year_id AND" + 
 			"   m_institute.institute_id=:instId AND" + 
 			"   m_academic_year.year_id=:yearId",nativeQuery=true)
-	List<SubjectResrchReport> getSubjectResrchReport(int instId, String yearId);
+	List<SubjectResrchReport> getSubjectResrchReport(@Param("instId") int instId,@Param("yearId") String yearId);
 	
 
 }
