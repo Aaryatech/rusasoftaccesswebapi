@@ -14,8 +14,7 @@ public class MaleFemaleRatioResponse {
 	private int maleFaculty;
 	
 	private int femaleFaculty;
-	
-	
+  	
 
 	private int transFaculty;
 	

@@ -18,9 +18,12 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.SettingKeyValue;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AccredationStatusReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.AntiRaggingHarresmentReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.CompetitiveExamReport;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.FunctionalMouReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.MaleFemaleRatioResponse;
  import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.PlacementUgPgStud;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.StudPartInNssNcc;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.StudentParticipatedInSports;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.ValueAddedCourseReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.InstituteAccredationReportRepo;
@@ -28,8 +31,11 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AccredationStatusReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.AntiRaggingHarresmentReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.CompetitiveExamReportRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.FunctionalMouReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.MaleFemaleRatioResponseRepo;
  import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.PlacementUgPgStudRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.StudPartInNssNccRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.StudentParticipatedInSportsRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.ValueAddedCourseReportRepo;
 
 @RestController
@@ -275,7 +281,7 @@ public class ReportApiController {
 				for (int j = 0; j < listFeMale.size(); j++) {
 					if (instRes.get(i).getInstituteId() == listFeMale.get(j).getInstituteId()) {
 
-						instRes.get(i).setFemaleFaculty(listFeMale.get(j).getFemaleFaculty());
+						instRes.get(i).setFemaleFaculty(listFeMale.get(j).getMaleFaculty());
 						break;
 					}
 
@@ -288,7 +294,7 @@ public class ReportApiController {
 				for (int j = 0; j < listTrans.size(); j++) {
 					if (instRes.get(i).getInstituteId() == listTrans.get(j).getInstituteId()) {
 
-						instRes.get(i).setTransFaculty(listTrans.get(j).getTransFaculty());
+						instRes.get(i).setTransFaculty(listTrans.get(j).getMaleFaculty());
 						break;
 					}
 
@@ -325,7 +331,77 @@ public class ReportApiController {
 		return instRes;
 
 	}
+	
+	@Autowired
+	StudentParticipatedInSportsRepo studentParticipatedInSportsRepo;
 
+	@RequestMapping(value = { "/getStudentParticipatedReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<StudentParticipatedInSports> getStudentParticipatedReport(@RequestParam int yearId) {
+
+		List<StudentParticipatedInSports> facPartInVarBodies = new ArrayList<>();
+
+		try { 
+			facPartInVarBodies = studentParticipatedInSportsRepo.getStudentParDet( yearId);
+			// System.err.println("List=" + facPartInVarBodies);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in getStudentParticipatedReport R2 " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return facPartInVarBodies;
+
+	}
+
+	@Autowired
+	StudPartInNssNccRepo studPartInNssNccRepo;
+	
+	
+	@RequestMapping(value = { "/getStudentParticipatedNssNccReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<StudPartInNssNcc> getStudentParticipatedNssNccReport(@RequestParam int yearId) {
+
+		List<StudPartInNssNcc> facPartInVarBodies = new ArrayList<>();
+
+		try { 
+			facPartInVarBodies = studPartInNssNccRepo.getStudPartNssNccDetList( yearId);
+			// System.err.println("List=" + facPartInVarBodies);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in getStudentParticipatedReport R2 " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return facPartInVarBodies;
+
+	}
+
+	@Autowired
+	FunctionalMouReportRepo functionalMouReportRepo;
+
+	
+	@RequestMapping(value = { "/getFunctionalMousReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<FunctionalMouReport> getFunctionalMousReport(@RequestParam int yearId) {
+
+		List<FunctionalMouReport> facPartInVarBodies = new ArrayList<>();
+
+		try { 
+			facPartInVarBodies = functionalMouReportRepo.getFunctionalMouDet(yearId);
+			// System.err.println("List=" + facPartInVarBodies);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in getStudentParticipatedReport R2 " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return facPartInVarBodies;
+
+	}
 
 	
 }
