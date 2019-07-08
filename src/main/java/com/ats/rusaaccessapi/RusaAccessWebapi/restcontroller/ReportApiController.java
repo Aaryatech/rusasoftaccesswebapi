@@ -251,9 +251,12 @@ public class ReportApiController {
 		List<MaleFemaleRatioResponse> listTrans = new ArrayList<>();
 		instRes = maleFemaleRatioResponseRepo.getInstList();
 		listMale = maleFemaleRatioResponseRepo.getFacultyList(0);
-	
-		
+		listFeMale = maleFemaleRatioResponseRepo.getFacultyList(1);
+		listTrans = maleFemaleRatioResponseRepo.getFacultyList(2);
 
+		List<MaleFemaleRatioResponse> listStud = new ArrayList<>();
+		listStud = maleFemaleRatioResponseRepo.getStudentList(yearId);
+		
 		try {
 			for (int i = 0; i < instRes.size(); i++) {
 
@@ -265,40 +268,37 @@ public class ReportApiController {
 					}
 
 				} // end of male for
-			}
-			listFeMale = maleFemaleRatioResponseRepo.getFacultyList(1);
-			for (int i = 0; i < instRes.size(); i++) {
+			
+			
+			
 
 				for (int j = 0; j < listFeMale.size(); j++) {
 					if (instRes.get(i).getInstituteId() == listFeMale.get(j).getInstituteId()) {
 
-						instRes.get(i).setFemaleFaculty(listFeMale.get(j).getMaleFaculty());
+						instRes.get(i).setFemaleFaculty(listFeMale.get(j).getFemaleFaculty());
 						break;
 					}
 
 				} // end of female for
-			}
+			
 
-			listTrans = maleFemaleRatioResponseRepo.getFacultyList(2);
-			for (int i = 0; i < instRes.size(); i++) {
+			
+		
 
 				for (int j = 0; j < listTrans.size(); j++) {
 					if (instRes.get(i).getInstituteId() == listTrans.get(j).getInstituteId()) {
 
-						instRes.get(i).setTransFaculty(listTrans.get(j).getMaleFaculty());
+						instRes.get(i).setTransFaculty(listTrans.get(j).getTransFaculty());
 						break;
 					}
 
 				} // end of trans for
-			}
+		
 			//
 			
 			
-			List<MaleFemaleRatioResponse> listStud = new ArrayList<>();
-			listStud = maleFemaleRatioResponseRepo.getStudentList(yearId);
+		
 			
-			for (int i = 0; i < instRes.size(); i++) {
-
 				for (int j = 0; j < listStud.size(); j++) {
 					if (instRes.get(i).getInstituteId() == listStud.get(j).getInstituteId()) {
 
@@ -326,4 +326,6 @@ public class ReportApiController {
 
 	}
 
+
+	
 }

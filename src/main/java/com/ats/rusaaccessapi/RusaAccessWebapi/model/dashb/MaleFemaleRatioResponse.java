@@ -7,12 +7,16 @@ import javax.persistence.Id;
 public class MaleFemaleRatioResponse {
 	
 	@Id
+	private String id;
+	
 	private int instituteId;
 	
 	private int maleFaculty;
 	
 	private int femaleFaculty;
 	
+	
+
 	private int transFaculty;
 	
 	private int maleStudent;
@@ -87,6 +91,13 @@ public class MaleFemaleRatioResponse {
 		this.instituteName = instituteName;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "MaleFemaleRatioResponse [instituteId=" + instituteId + ", maleFaculty=" + maleFaculty

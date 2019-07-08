@@ -10,7 +10,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.MaleFemaleRatioRespons
 
 public interface MaleFemaleRatioResponseRepo extends JpaRepository<MaleFemaleRatioResponse, Integer>{
 
-	@Query(value="SELECT  " + 
+	@Query(value="SELECT  UUID() as id," + 
 			"    m_institute.institute_id," + 
 			"    m_institute.institute_name," + 
 			"    0 as male_faculty," + 
@@ -23,7 +23,7 @@ public interface MaleFemaleRatioResponseRepo extends JpaRepository<MaleFemaleRat
 	List<MaleFemaleRatioResponse> getInstList();
 	
 	
-	@Query(value="SELECT   m_institute.institute_id, m_institute.institute_name, \n" + 
+	@Query(value="SELECT UUID() as id,  m_institute.institute_id, m_institute.institute_name, \n" + 
 			"    COUNT(m_faculty.faculty_id) as male_faculty,\n" + 
 			"    0 as female_faculty, 0 as trans_faculty, 0 as trans_student,0 as male_student,0 as female_student \n" + 
 			"FROM\n" + 
@@ -37,7 +37,7 @@ public interface MaleFemaleRatioResponseRepo extends JpaRepository<MaleFemaleRat
 	
 	
 
-	@Query(value="SELECT\n" + 
+	@Query(value="SELECT UUID() as id, \n" + 
 			"  m_institute.institute_id, SUM(\n" + 
 			"        t_program_student_location.female_student\n" + 
 			"    ) AS female_student,\n" + 
