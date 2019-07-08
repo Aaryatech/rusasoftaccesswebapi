@@ -15,6 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,8 +62,99 @@ public class RestApiController {
 	 @Autowired
 		GetInstituteListRepo getGetInstituteListRepo;
 	 
-	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
+	 @RequestMapping(value = { "/rusaUserRegistration" }, method = RequestMethod.POST)
+		public @ResponseBody UserLogin rusaUserRegistration(@RequestBody UserLogin userLogin) {
 
+		 UserLogin instiData = new UserLogin();
+		 
+			try {
+
+				instiData = userServiceRepo.save(userLogin);
+
+			} catch (Exception e) {
+
+			}
+			
+			return instiData;
+
+		}
+	 
+	 @RequestMapping(value = { "/deleteRusaUserRegistration" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteRusaUserRegistration(@RequestParam("userId") int userId) {
+
+		 Info info = new Info();
+		 
+			try {
+
+				int delete = userServiceRepo.deleteuser(userId);
+				
+				if(delete>0) {
+					info.setError(false);
+					info.setMessage("deleted");
+					
+				}else {
+					info.setError(true);
+					info.setMessage("filed to deleted");
+				}
+
+			} catch (Exception e) {
+				info.setError(true);
+				info.setMessage("filed to deleted");
+			}
+			
+			return info;
+
+		}
+	 
+	 @RequestMapping(value = { "/rusaUserbyId" }, method = RequestMethod.POST)
+		public @ResponseBody UserList rusaUserbyId(@RequestParam("userId") int userId) {
+
+		 UserList info = new UserList();
+		 
+			try {
+
+				info = userListRepository.rusaUserbyId(userId);
+				 
+
+			} catch (Exception e) {
+				 
+			}
+			
+			return info;
+
+		}
+	 
+	 @RequestMapping(value = { "/checkUserNameExist" }, method = RequestMethod.POST) 
+		public @ResponseBody Info checkUserNameExist(@RequestParam("username") String userName ) {
+
+			 
+			Info info = new Info();
+			
+			 try {
+				 
+				 UserList checkUserNameExist= userListRepository.checkUserNameExist(userName);
+				 
+				 if(checkUserNameExist==null) {
+					 
+					 info.setError(false);
+					 info.setMessage("Available");
+				 }else {
+					 
+					 info.setError(true);
+					 info.setMessage("Not Available");
+				 }
+				 
+			 }catch(Exception e) {
+				 e.printStackTrace();
+				 info.setError(true);
+				 info.setMessage("Not Available");
+			 }
+			  
+			return info;
+
+		}
+	 
+	@RequestMapping(value = { "/login" }, method = RequestMethod.POST) 
 	public @ResponseBody UserList loginUser(@RequestParam("username") String userName,
 			@RequestParam("password") String pass, @RequestParam("isBlock") int isBlock) {
 

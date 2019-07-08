@@ -28,7 +28,13 @@ public class UserLogin {
 
 		private String exVar1;
 		private String exVar2;
+		private String joiningDate;
 		
+		private String firstName;
+		private String middleName;
+		private String lastName;
+		private String designation;
+		private String email; 
 		
 		
 		public int getUserId() {
@@ -98,11 +104,49 @@ public class UserLogin {
 			this.exVar2 = exVar2;
 		}
 		
+		public String getJoiningDate() {
+			return joiningDate;
+		}
+		public void setJoiningDate(String joiningDate) {
+			this.joiningDate = joiningDate;
+		}
+		public String getFirstName() {
+			return firstName;
+		}
+		public void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
+		public String getMiddleName() {
+			return middleName;
+		}
+		public void setMiddleName(String middleName) {
+			this.middleName = middleName;
+		}
+		public String getLastName() {
+			return lastName;
+		}
+		public void setLastName(String lastName) {
+			this.lastName = lastName;
+		}
+		public String getDesignation() {
+			return designation;
+		}
+		public void setDesignation(String designation) {
+			this.designation = designation;
+		}
+		public String getEmail() {
+			return email;
+		}
+		public void setEmail(String email) {
+			this.email = email;
+		}
 		@Override
 		public String toString() {
 			return "UserLogin [userId=" + userId + ", userType=" + userType + ", userName=" + userName + ", pass="
 					+ pass + ", isBlock=" + isBlock + ", regPrimaryKey=" + regPrimaryKey + ", roleId=" + roleId
-					+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+					+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+					+ ", joiningDate=" + joiningDate + ", firstName=" + firstName + ", middleName=" + middleName
+					+ ", lastName=" + lastName + ", designation=" + designation + ", email=" + email + "]";
 		}
 
 }

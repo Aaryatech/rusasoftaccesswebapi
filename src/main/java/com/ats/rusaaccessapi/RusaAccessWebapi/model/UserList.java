@@ -1,5 +1,7 @@
 package com.ats.rusaaccessapi.RusaAccessWebapi.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,36 +9,37 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class UserList {
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="user_id")
-    private int userId;
-	
-	@Column(name="user_type")
+	private int userId;
+
 	private int userType;
-	
-	@Column(name="user_name")
+
 	private String userName;
-	
-	@Column(name="pass")
 	private String pass;
-	
-	@Column(name="is_block")
 	private int isBlock;
-	
-	@Column(name="reg_primary_key")
 	private int regPrimaryKey;
-	
-	@Column(name="role_id")
 	private int roleId;
-	
-	@Column(name="ex_int1")
-	private int exInt1; 
-	
+
+	// extra 4 columns
+	private int exInt1;
+	private int exInt2;
+
+	private String exVar1;
+	private String exVar2;
+	private Date joiningDate;
+
+	private String firstName;
+	private String middleName;
+	private String lastName;
+	private String designation;
+	private String email;
+
 	@Transient
 	private Boolean isError;
 
@@ -112,14 +115,85 @@ public class UserList {
 		this.isError = isError;
 	}
 
+	public int getExInt2() {
+		return exInt2;
+	}
+
+	public void setExInt2(int exInt2) {
+		this.exInt2 = exInt2;
+	}
+
+	public String getExVar1() {
+		return exVar1;
+	}
+
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
+
+	public String getExVar2() {
+		return exVar2;
+	}
+
+	public void setExVar2(String exVar2) {
+		this.exVar2 = exVar2;
+	}
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getJoiningDate() {
+		return joiningDate;
+	}
+
+	public void setJoiningDate(Date joiningDate) {
+		this.joiningDate = joiningDate;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "UserList [userId=" + userId + ", userType=" + userType + ", userName=" + userName + ", pass=" + pass
 				+ ", isBlock=" + isBlock + ", regPrimaryKey=" + regPrimaryKey + ", roleId=" + roleId + ", exInt1="
-				+ exInt1 + ", isError=" + isError + "]";
+				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", joiningDate="
+				+ joiningDate + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName
+				+ ", designation=" + designation + ", email=" + email + ", isError=" + isError + "]";
 	}
 
-	 
-	
-	 
 }
