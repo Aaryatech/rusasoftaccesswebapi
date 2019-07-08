@@ -182,7 +182,7 @@ public class ReportApiController {
 	CompetitiveExamReportRepo competitiveExamReportRepo;
 
 	@RequestMapping(value = { "/getCompetitiveExamReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<CompetitiveExamReport> getCompetitiveExamReport(@RequestParam int yearId) {
+	public @ResponseBody List<CompetitiveExamReport> getCompetitiveExamReport(@RequestParam String yearId) {
 
 		List<CompetitiveExamReport> facPartInVarBodies = new ArrayList<>();
 

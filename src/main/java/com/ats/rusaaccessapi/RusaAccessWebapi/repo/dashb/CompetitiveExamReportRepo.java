@@ -22,6 +22,6 @@ public interface CompetitiveExamReportRepo extends JpaRepository<CompetitiveExam
 			"\n" + 
 			"\n" + 
 			"FROM m_institute,m_academic_year WHERE m_academic_year.year_id=:yearId GROUP by m_institute.institute_id", nativeQuery = true)
-	List<CompetitiveExamReport> getCompetitiveExamDet(@Param("yearId") int yearId
+	List<CompetitiveExamReport> getCompetitiveExamDet(@Param("yearId") String yearId
 			);
 }

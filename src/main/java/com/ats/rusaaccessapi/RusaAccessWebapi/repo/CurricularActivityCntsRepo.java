@@ -39,7 +39,7 @@ public interface CurricularActivityCntsRepo extends JpaRepository<CurricularActi
 			"    m_institute.del_status=1 AND" + 
 			"    m_institute.is_active=1"
 			+ "  GROUP BY t_program_student_activity.institute_id",nativeQuery=true)
-	List<CurricularActivityCnts> getCurriActCnt(@Param("yearId") int yearId);
+	List<CurricularActivityCnts> getCurriActCnt(@Param("yearId") String yearId);
 
 
 	@Query(value="SELECT " + 
@@ -58,7 +58,7 @@ public interface CurricularActivityCntsRepo extends JpaRepository<CurricularActi
 			"    m_institute.del_status=1 AND" + 
 			"    m_institute.is_active=1"
 			+ "  GROUP BY t_program_student_activity.institute_id",nativeQuery=true)
-	List<CurricularActivityCnts> getCoCurriActCnt(@Param("yearId") int yearId);
+	List<CurricularActivityCnts> getCoCurriActCnt(@Param("yearId") String yearId);
 
 
 	@Query(value="SELECT " + 
@@ -77,6 +77,6 @@ public interface CurricularActivityCntsRepo extends JpaRepository<CurricularActi
 			"    m_institute.del_status=1 AND" + 
 			"    m_institute.is_active=1"
 			+ "		GROUP BY t_program_student_activity.institute_id",nativeQuery=true)
-	List<CurricularActivityCnts> getExtraCoCurriActCnt(@Param("yearId") int yearId);
+	List<CurricularActivityCnts> getExtraCoCurriActCnt(@Param("yearId") String yearId);
 
 }
