@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusaaccessapi.RusaAccessWebapi.accessrepo.GetInstituteListRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.accessrepo.InstituteRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.accessrepo.PrincipalRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.AdminLoginLog;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.GetInstituteList;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Info;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Institute;
@@ -32,180 +33,199 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.Principal;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Staff;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.UserList;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.UserLogin;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AdminLoginLogRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.StaffRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.UserListRepository;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.UserService;
 import com.ats.rusaaccessapi.RusaAccessWebapi.service.EmailUtility;
- 
+
 @RestController
 public class RestApiController {
 
-	
-	 @Autowired
-	 UserListRepository userListRepository;
-	 
-	 @Autowired
-		GetInstituteListRepo getInstituteListRepo;
-	 
-	 @Autowired
-		InstituteRepo instituteRepo;
-	 
-	 @Autowired
-		PrincipalRepo pincipalRepo;
-	 
-	 @Autowired
-		UserService userServiceRepo;
+	@Autowired
+	UserListRepository userListRepository;
 
-	 @Autowired
-		StaffRepo staffRepo;
-	 
-	 @Autowired
-		GetInstituteListRepo getGetInstituteListRepo;
-	 
-	 @RequestMapping(value = { "/rusaUserRegistration" }, method = RequestMethod.POST)
-		public @ResponseBody UserLogin rusaUserRegistration(@RequestBody UserLogin userLogin) {
+	@Autowired
+	GetInstituteListRepo getInstituteListRepo;
 
-		 UserLogin instiData = new UserLogin();
-		 
-			try {
+	@Autowired
+	InstituteRepo instituteRepo;
 
-				instiData = userServiceRepo.save(userLogin);
+	@Autowired
+	PrincipalRepo pincipalRepo;
 
-			} catch (Exception e) {
+	@Autowired
+	UserService userServiceRepo;
 
-			}
-			
-			return instiData;
+	@Autowired
+	StaffRepo staffRepo;
+
+	@Autowired
+	GetInstituteListRepo getGetInstituteListRepo;
+
+	@Autowired
+	AdminLoginLogRepo adminLoginLogRepo;
+
+	@RequestMapping(value = { "/rusaLoginLog" }, method = RequestMethod.POST)
+	public @ResponseBody AdminLoginLog rusaLoginLog(@RequestBody AdminLoginLog userLogin) {
+
+		AdminLoginLog instiData = new AdminLoginLog();
+
+		try {
+
+			instiData = adminLoginLogRepo.save(userLogin);
+
+		} catch (Exception e) {
 
 		}
-	 
-	 @RequestMapping(value = { "/deleteRusaUserRegistration" }, method = RequestMethod.POST)
-		public @ResponseBody Info deleteRusaUserRegistration(@RequestParam("userId") int userId) {
 
-		 Info info = new Info();
-		 
-			try {
+		return instiData;
 
-				int delete = userServiceRepo.deleteuser(userId);
-				
-				if(delete>0) {
-					info.setError(false);
-					info.setMessage("deleted");
-					
-				}else {
-					info.setError(true);
-					info.setMessage("filed to deleted");
-				}
+	}
 
-			} catch (Exception e) {
+	@RequestMapping(value = { "/rusaUserRegistration" }, method = RequestMethod.POST)
+	public @ResponseBody UserLogin rusaUserRegistration(@RequestBody UserLogin userLogin) {
+
+		UserLogin instiData = new UserLogin();
+
+		try {
+
+			instiData = userServiceRepo.save(userLogin);
+
+		} catch (Exception e) {
+
+		}
+
+		return instiData;
+
+	}
+
+	@RequestMapping(value = { "/deleteRusaUserRegistration" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteRusaUserRegistration(@RequestParam("userId") int userId) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = userServiceRepo.deleteuser(userId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMessage("deleted");
+
+			} else {
 				info.setError(true);
 				info.setMessage("filed to deleted");
 			}
-			
-			return info;
 
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMessage("filed to deleted");
 		}
-	 
-	 @RequestMapping(value = { "/updatePassword" }, method = RequestMethod.POST)
-		public @ResponseBody Info updatePassword(@RequestParam("userId") int userId,@RequestParam("userName") String userName,@RequestParam("userPass") String userPass) {
 
-		 Info info = new Info();
-		 
-			try {
+		return info;
 
-				int updatePassword = userServiceRepo.updatePassword(userId,userName,userPass);
-				
-				if(updatePassword>0) {
-					info.setError(false);
-					info.setMessage("updated");
-					
-				}else {
-					info.setError(true);
-					info.setMessage("filed to updated");
-				}
+	}
 
-			} catch (Exception e) {
+	@RequestMapping(value = { "/updatePassword" }, method = RequestMethod.POST)
+	public @ResponseBody Info updatePassword(@RequestParam("userId") int userId,
+			@RequestParam("userName") String userName, @RequestParam("userPass") String userPass) {
+
+		Info info = new Info();
+
+		try {
+
+			int updatePassword = userServiceRepo.updatePassword(userId, userName, userPass);
+
+			if (updatePassword > 0) {
+				info.setError(false);
+				info.setMessage("updated");
+
+			} else {
 				info.setError(true);
 				info.setMessage("filed to updated");
 			}
-			
-			return info;
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMessage("filed to updated");
+		}
+
+		return info;
+
+	}
+
+	@RequestMapping(value = { "/rusaUserbyId" }, method = RequestMethod.POST)
+	public @ResponseBody UserList rusaUserbyId(@RequestParam("userId") int userId) {
+
+		UserList info = new UserList();
+
+		try {
+
+			info = userListRepository.rusaUserbyId(userId);
+
+		} catch (Exception e) {
 
 		}
-	 
-	 @RequestMapping(value = { "/rusaUserbyId" }, method = RequestMethod.POST)
-		public @ResponseBody UserList rusaUserbyId(@RequestParam("userId") int userId) {
 
-		 UserList info = new UserList();
-		 
-			try {
+		return info;
 
-				info = userListRepository.rusaUserbyId(userId);
-				 
+	}
 
-			} catch (Exception e) {
-				 
+	@RequestMapping(value = { "/checkUserNameExist" }, method = RequestMethod.POST)
+	public @ResponseBody Info checkUserNameExist(@RequestParam("username") String userName) {
+
+		Info info = new Info();
+
+		try {
+
+			UserList checkUserNameExist = userListRepository.checkUserNameExist(userName);
+
+			if (checkUserNameExist == null) {
+
+				info.setError(false);
+				info.setMessage("Available");
+			} else {
+
+				info.setError(true);
+				info.setMessage("Not Available");
 			}
-			
-			return info;
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			info.setError(true);
+			info.setMessage("Not Available");
 		}
-	 
-	 @RequestMapping(value = { "/checkUserNameExist" }, method = RequestMethod.POST) 
-		public @ResponseBody Info checkUserNameExist(@RequestParam("username") String userName ) {
 
-			 
-			Info info = new Info();
-			
-			 try {
-				 
-				 UserList checkUserNameExist= userListRepository.checkUserNameExist(userName);
-				 
-				 if(checkUserNameExist==null) {
-					 
-					 info.setError(false);
-					 info.setMessage("Available");
-				 }else {
-					 
-					 info.setError(true);
-					 info.setMessage("Not Available");
-				 }
-				 
-			 }catch(Exception e) {
-				 e.printStackTrace();
-				 info.setError(true);
-				 info.setMessage("Not Available");
-			 }
-			  
-			return info;
+		return info;
 
-		}
-	 
-	@RequestMapping(value = { "/login" }, method = RequestMethod.POST) 
+	}
+
+	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
 	public @ResponseBody UserList loginUser(@RequestParam("username") String userName,
 			@RequestParam("password") String pass, @RequestParam("isBlock") int isBlock) {
 
 		UserList login = new UserList();
-		
-		 try {
-			 
-			 login= userListRepository.loginProcess(userName,pass,isBlock);
-			 
-			 if(login==null) {
-				 login = new UserList();
-				 login.setIsError(true);
-			 }else {
-				 login.setIsError(false);
-			 }
-			 
-		 }catch(Exception e) {
-			 e.printStackTrace();
-		 }
-		  
+
+		try {
+
+			login = userListRepository.loginProcess(userName, pass, isBlock);
+
+			if (login == null) {
+				login = new UserList();
+				login.setIsError(true);
+			} else {
+				login.setIsError(false);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return login;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAllInstitutes" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetInstituteList> getAllInstitutes() {
 
@@ -222,7 +242,7 @@ public class RestApiController {
 		return insResp;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAllPendingInstitutes" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetInstituteList> getAllPendingInstitutes() {
 
@@ -241,7 +261,7 @@ public class RestApiController {
 
 		return insResp;
 	}
-	
+
 	@RequestMapping(value = { "/showInstituteData" }, method = RequestMethod.POST)
 	public @ResponseBody Institute approveInstitutes(@RequestParam("instId") int instId) {
 
@@ -253,15 +273,15 @@ public class RestApiController {
 		} catch (Exception e) {
 
 		}
-		
+
 		return instiData;
 
 	}
+
 	static String senderEmail = "atsinfosoft@gmail.com";
 	static String senderPassword = "atsinfosoft@123";
 	static String mailsubject = " RUSA Login Credentials ";
-	
-	
+
 	@RequestMapping(value = { "/approveInstitutes" }, method = RequestMethod.POST)
 	public @ResponseBody Info approveInstitutes(@RequestParam List<Integer> instIdList, @RequestParam int aprUserId) {
 
@@ -271,7 +291,7 @@ public class RestApiController {
 
 			for (int i = 0; i < instIdList.size(); i++) {
 
-				//UserLogin user = new UserLogin();
+				// UserLogin user = new UserLogin();
 
 				String userName = getAlphaNumericString(7);
 				String pass = getAlphaNumericString(7);
@@ -292,7 +312,7 @@ public class RestApiController {
 				 * 
 				 * UserLogin userRes = userServiceRepo.save(user);
 				 * 
-				 */	
+				 */
 				Institute insResp = null;
 
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -301,7 +321,7 @@ public class RestApiController {
 
 				Staff staff = staffRepo.findByDelStatusAndIsActiveAndIsBlockedAndInstituteId(1, 1, 0,
 						instIdList.get(i));
-				System.out.println("Pass=="+staff+"-------------"+pass);
+				System.out.println("Pass==" + staff + "-------------" + pass);
 				staff.setPassword(getAlphaNumericString(7));
 				staffRepo.save(staff);
 
@@ -312,10 +332,12 @@ public class RestApiController {
 				insResp.setExInt2(1); // is approved
 				instituteRepo.save(insResp);
 
-				//Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, princi.getEmail(), mailsubject,
-						//princi.getEmail(), userRes.getPass());
+				// Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword,
+				// princi.getEmail(), mailsubject,
+				// princi.getEmail(), userRes.getPass());
 
-				//Info smsRes = EmailUtility.sendMsg(princi.getEmail(), userRes.getPass(), princi.getPhoneNo());
+				// Info smsRes = EmailUtility.sendMsg(princi.getEmail(), userRes.getPass(),
+				// princi.getPhoneNo());
 
 				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, staff.getEmail(), mailsubject,
 						staff.getEmail(), staff.getPassword());
@@ -409,7 +431,7 @@ public class RestApiController {
 
 		return sb.toString();
 	}
-	
+
 	@RequestMapping(value = { "/deleteInstituteById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteByIqacById(@RequestParam("instId") int instId) {
 		int isDelete = 0;
