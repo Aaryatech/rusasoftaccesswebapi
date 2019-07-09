@@ -45,4 +45,9 @@ public interface UserService extends JpaRepository<UserLogin, Integer> {
 	@Query(value = "UPDATE t_user_login_rusa SET is_block=0 WHERE user_id=:userId ", nativeQuery = true)
 	int deleteuser(@Param("userId") int userId);
 
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE t_user_login_rusa SET pass=:userPass ,user_name=:userName WHERE user_id=:userId ", nativeQuery = true)
+	int updatePassword(@Param("userId")int userId, @Param("userName") String userName, @Param("userPass")String userPass);
+
 }

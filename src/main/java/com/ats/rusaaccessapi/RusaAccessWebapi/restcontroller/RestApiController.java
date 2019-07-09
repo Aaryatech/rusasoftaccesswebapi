@@ -106,6 +106,33 @@ public class RestApiController {
 
 		}
 	 
+	 @RequestMapping(value = { "/updatePassword" }, method = RequestMethod.POST)
+		public @ResponseBody Info updatePassword(@RequestParam("userId") int userId,@RequestParam("userName") String userName,@RequestParam("userPass") String userPass) {
+
+		 Info info = new Info();
+		 
+			try {
+
+				int updatePassword = userServiceRepo.updatePassword(userId,userName,userPass);
+				
+				if(updatePassword>0) {
+					info.setError(false);
+					info.setMessage("updated");
+					
+				}else {
+					info.setError(true);
+					info.setMessage("filed to updated");
+				}
+
+			} catch (Exception e) {
+				info.setError(true);
+				info.setMessage("filed to updated");
+			}
+			
+			return info;
+
+		}
+	 
 	 @RequestMapping(value = { "/rusaUserbyId" }, method = RequestMethod.POST)
 		public @ResponseBody UserList rusaUserbyId(@RequestParam("userId") int userId) {
 
