@@ -30,20 +30,20 @@ public class RusaAdReportApiContrl {
 			try {
 				 curriCntIntsList = new ArrayList<CurricularActivityCnts>();
 				 curriCntIntsList=curriCntRepo.getInstList();
-				 System.out.println("Int List--------"+curriCntIntsList.toString());
+				// System.out.println("Int List--------"+curriCntIntsList.toString());
 				 
 				 
 				 List<CurricularActivityCnts> curriCntList = new ArrayList<CurricularActivityCnts>();
 				 curriCntList=curriCntRepo.getCurriActCnt(yearId);
-				 System.out.println("Curri List--------"+curriCntList.toString());
+				/// System.out.println("Curri List--------"+curriCntList.toString());
 				 
 				 List<CurricularActivityCnts> coCurriCntList = new ArrayList<CurricularActivityCnts>();
 				 coCurriCntList=curriCntRepo.getCoCurriActCnt(yearId);
-				 System.out.println("CoCurri List--------"+coCurriCntList.toString());
+				 //System.out.println("CoCurri List--------"+coCurriCntList.toString());
 				 
 				 List<CurricularActivityCnts> extraCurriCntList = new ArrayList<CurricularActivityCnts>();
 				 extraCurriCntList=curriCntRepo.getExtraCoCurriActCnt(yearId);
-				 System.out.println("CoCurri List--------"+extraCurriCntList.toString());
+				// System.out.println("CoCurri List--------"+extraCurriCntList.toString());
 				 
 				 
 				 

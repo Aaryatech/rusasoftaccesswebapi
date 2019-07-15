@@ -10,7 +10,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.CurricularActivityCnts;
 
 public interface CurricularActivityCntsRepo extends JpaRepository<CurricularActivityCnts, Integer> {
 
-	@Query(value="SELECT  " + 
+	@Query(value="SELECT UUID() as id,  " + 
 			"    m_institute.institute_id," + 
 			"    m_institute.institute_name," + 
 			"    0 as curri_cnt," + 

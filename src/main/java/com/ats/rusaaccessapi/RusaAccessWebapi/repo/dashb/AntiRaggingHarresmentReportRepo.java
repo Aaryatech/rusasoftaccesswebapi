@@ -17,7 +17,7 @@ public interface AntiRaggingHarresmentReportRepo extends JpaRepository<AntiRaggi
 			"    COALESCE(\n" + 
 			"        (\n" + 
 			"        SELECT\n" + 
-			"            1\n" + 
+			"            'Yes' \n" + 
 			"        FROM\n" + 
 			"            redressed_stud_grievance\n" + 
 			"        WHERE\n" + 
@@ -27,11 +27,11 @@ public interface AntiRaggingHarresmentReportRepo extends JpaRepository<AntiRaggi
 			"        DESC\n" + 
 			"    LIMIT 1\n" + 
 			"    ),\n" + 
-			"    0\n" + 
+			"    'No' \n" + 
 			"    ) AS sexual_harash_commitee, COALESCE(\n" + 
 			"        (\n" + 
 			"        SELECT\n" + 
-			"            1\n" + 
+			"            'Yes' \n" + 
 			"        FROM\n" + 
 			"            redressed_stud_grievance\n" + 
 			"        WHERE\n" + 
@@ -41,7 +41,7 @@ public interface AntiRaggingHarresmentReportRepo extends JpaRepository<AntiRaggi
 			"        DESC\n" + 
 			"    LIMIT 1\n" + 
 			"    ),\n" + 
-			"    0\n" + 
+			"    'No' \n" + 
 			"    ) AS ragging_commitee\n" + 
 			"FROM\n" + 
 			"    m_institute,\n" + 
