@@ -26,6 +26,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.accessrepo.GetInstituteListRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.accessrepo.InstituteRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.accessrepo.PrincipalRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.AdminLoginLog;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.GetChangePrincipalDetails;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.GetInstituteList;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Info;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Institute;
@@ -34,6 +35,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.Staff;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.UserList;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.UserLogin;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AdminLoginLogRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.GetChangePrincipalDetailsRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.StaffRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.UserListRepository;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.UserService;
@@ -65,6 +67,88 @@ public class RestApiController {
 
 	@Autowired
 	AdminLoginLogRepo adminLoginLogRepo;
+	
+	@Autowired
+	GetChangePrincipalDetailsRepo getChangePrincipalDetailsRepo;
+	
+	@RequestMapping(value = { "/getAllRequestForChangePrincipal" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetChangePrincipalDetails> getAllRequestForChangePrincipal() {
+
+		List<GetChangePrincipalDetails> insResp = new ArrayList<>();
+
+		try {
+			insResp = getChangePrincipalDetailsRepo.getChangePrinciRequest();
+
+		} catch (Exception e) {
+			System.err.println("Exce in getAllInstitutes Institute " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return insResp;
+
+	}
+	
+	@RequestMapping(value = { "/changePrincipal" }, method = RequestMethod.POST)
+	public @ResponseBody Info changePrincipal(@RequestParam int facultyId) {
+
+		Info info = new Info();
+		try {
+			int res = staffRepo.updateFaulty(facultyId);
+			if (res > 0) {
+				info.setError(false);
+			 
+
+			} else {
+				info.setError(true);
+			 
+
+			}
+		} catch (Exception e) {
+
+			System.err.println("Exce in deleteHods  " + e.getMessage());
+			e.printStackTrace();
+			info.setError(true);
+		 
+		}
+
+		return info;
+
+	}
+
+	
+	@RequestMapping(value = { "/blockPrevPrincipal" }, method = RequestMethod.POST)
+	public @ResponseBody Info blockPrevPrincipal(@RequestParam int instituteId) {
+
+		Info info = new Info();
+		try {
+			Staff sp=new Staff();
+			sp=staffRepo.getPrevPrinci(instituteId);
+			
+			
+			int res = staffRepo.updateBlockPrinci(sp.getFacultyId());
+			if (res > 0) {
+				info.setError(false);
+			 
+
+			} else {
+				info.setError(true);
+			 
+
+			}
+		} catch (Exception e) {
+
+			System.err.println("Exce in deleteHods  " + e.getMessage());
+			e.printStackTrace();
+			info.setError(true);
+		 
+		}
+
+		return info;
+
+	}
+
+
+
 
 	@RequestMapping(value = { "/rusaLoginLog" }, method = RequestMethod.POST)
 	public @ResponseBody AdminLoginLog rusaLoginLog(@RequestBody AdminLoginLog userLogin) {

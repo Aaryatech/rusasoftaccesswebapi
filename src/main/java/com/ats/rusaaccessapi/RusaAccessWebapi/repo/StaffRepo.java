@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Staff;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.InstituteAccredationReport;
 
 public interface StaffRepo extends JpaRepository<Staff, Integer> {
 
@@ -76,4 +77,25 @@ public interface StaffRepo extends JpaRepository<Staff, Integer> {
 	List<Staff> findByEmailAndDelStatusAndIsBlocked(String inputValue, int del, int isBlocked);
 
 	Staff findByDelStatusAndIsActiveAndEmail(int i, int j, String emailId);
+
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE m_faculty SET is_active=1 ,del_status=1 WHERE faculty_id =:facultyId ", nativeQuery = true)
+	int updateFaulty(@Param("facultyId") int facultyId);
+
+ 	
+	
+	 @Query(value="SELECT\n" + 
+	 		"    *\n" + 
+	 		"FROM\n" + 
+	 		"    m_faculty\n" + 
+	 		"WHERE\n" + 
+	 		"    m_faculty.del_status = 1 AND m_faculty.is_active = 1 AND m_faculty.is_principal=1 AND m_faculty.is_blocked = 0 AND m_faculty.institute_id =:instId ORDER By m_faculty.faculty_id ASC LIMIT 1", nativeQuery=true)
+		 Staff getPrevPrinci(@Param("instId") int instId);
+
+		@Transactional
+		@Modifying
+		@Query(value = "UPDATE m_faculty SET is_blocked=1  WHERE faculty_id =:facultyId ", nativeQuery = true)
+		int updateBlockPrinci(@Param("facultyId") int facultyId);
 }
