@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.AcademicYear;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.SettingKeyValue;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.GetCountsForDash;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.GetInstInfoCount;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.QualityIniCountsForGraph;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.QualityIniGraphResponse;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AcademicYearRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.SettingKeyValueRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.DashBoardCountsRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.GetInstInfoCountRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.dashb.QualityIniCountsForGraphRepo;
 
 @RestController
@@ -35,14 +37,71 @@ public class DashboardApiController {
 			instResp = dashBoardCountsRepo.getInstCountUsingRusaSw();
 
 		} catch (Exception e) {
-			System.err.println("Exce in saving saveLinkageMaster " + e.getMessage());
+			System.err.println("Exce in getInstituteCount " + e.getMessage());
 			e.printStackTrace();
 		}
 
 		return instResp;
 
 	}
+	
+/***********************Mahendra01/08/2019****************************/
+	@RequestMapping(value = { "/getRegInstituteCount" }, method = RequestMethod.GET)
+	public @ResponseBody GetCountsForDash getRegInstituteCount() {
 
+		GetCountsForDash instResp = null;
+
+		try {
+
+			instResp = dashBoardCountsRepo.getRegInstCount();
+
+		} catch (Exception e) {
+			System.err.println("Exce in getRegInstituteCount " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return instResp;
+
+	}
+	
+	@RequestMapping(value = { "/getAutoInstituteCount" }, method = RequestMethod.GET)
+	public @ResponseBody GetCountsForDash getAutoInstituteCount() {
+
+		GetCountsForDash instResp = null;
+
+		try {
+
+			instResp = dashBoardCountsRepo.getAutonomousInstCount();
+
+		} catch (Exception e) {
+			System.err.println("Exce in getAutoInstituteCount " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return instResp;
+
+	}
+	
+	
+	@Autowired GetInstInfoCountRepo otherInstInfoRepo;
+	@RequestMapping(value = { "/getInstituteOtherInfoCount" }, method = RequestMethod.GET)
+	public @ResponseBody GetInstInfoCount getInstituteOtherInfoCount() {
+
+		GetInstInfoCount instResp = null;
+
+		try {
+
+			instResp = otherInstInfoRepo.getInstituteOtherInfoCount();
+
+		} catch (Exception e) {
+			System.err.println("Exce in getInstituteOtherInfoCount " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return instResp;
+
+	}
+/*************************************************************************************/
 	@Autowired
 	QualityIniCountsForGraphRepo qualityIniCountsForGraphRepo;
 
