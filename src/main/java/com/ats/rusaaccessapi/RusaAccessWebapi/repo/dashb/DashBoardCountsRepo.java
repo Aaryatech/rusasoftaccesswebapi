@@ -8,8 +8,11 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.GetCountsForDash;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.dashb.GetInstInfoCount;
 
 public interface DashBoardCountsRepo extends JpaRepository<GetCountsForDash, Integer> {
-
-	@Query(value = "SELECT\n" + 
+	
+	@Query(value = "SELECT 0 as id, COUNT(mh_institute_master.mh_inst_id) AS count1 FROM mh_institute_master", nativeQuery = true)
+	GetCountsForDash getInstCountUsingRusaSw();		
+	/*
+	 *SELECT\n" + 
 			"        UUID() as id,\n" + 
 			"        COUNT(m_institute.institute_id) AS count1\n" + 
 			"     " + 
@@ -17,8 +20,8 @@ public interface DashBoardCountsRepo extends JpaRepository<GetCountsForDash, Int
 			"        m_institute" + 
 			"    WHERE\n" + 
 			"        m_institute.del_status = 1" + 
-			"        AND m_institute.is_active = 1", nativeQuery = true)
-	GetCountsForDash getInstCountUsingRusaSw();
+			"        AND m_institute.is_active = 1
+	 */
 
 /**************Mahendra 01/08/2019*********************/		
 	@Query(value="SELECT  UUID() as id, COUNT(institute_id) AS count1 " + 

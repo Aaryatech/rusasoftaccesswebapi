@@ -35,7 +35,7 @@ public class DashboardApiController {
 		try {
 
 			instResp = dashBoardCountsRepo.getInstCountUsingRusaSw();
-
+			System.err.println("InstCnt="+instResp.getCount1());
 		} catch (Exception e) {
 			System.err.println("Exce in getInstituteCount " + e.getMessage());
 			e.printStackTrace();
