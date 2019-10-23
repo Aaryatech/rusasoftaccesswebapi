@@ -531,44 +531,6 @@ public class RestApiController {
 		return inf;
 	}
 	
-	@Autowired
-	ProgramTypeRepo programTypeRepo;
-
-	@RequestMapping(value = { "/getAllProgramType" }, method = RequestMethod.GET)
-	public @ResponseBody List<ProgramType> getAllProgramType() {
-
-		List<ProgramType> progTypeList = new ArrayList<>();
-
-		try {
-		progTypeList = programTypeRepo.findByDelStatusAndIsActiveAndSequenceNotIn(1	, 1, "0");	
-
-		} catch (Exception e) {
-			System.err.println("Exce in getAllProgramType  " + e.getMessage());
-			e.printStackTrace();
-		}
-
-		return progTypeList;
-
-	}
 	
-	@Autowired
-	ProgramRepository programRepository;
-	@RequestMapping(value = { "/getProgramByProgramTypeId" }, method = RequestMethod.POST)
-	public @ResponseBody List<Program> getProgramByProgramTypeId(@RequestParam("programTypeId") int programTypeId,@RequestParam("instituteId") int instituteId ) {
-
-		List<Program> list = new ArrayList<Program>();
-
-		try {
-
-			list = programRepository.findByProgramTypeAndDelStatusAndInstituteId(programTypeId, 1, instituteId);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return list;
-
-	}
 
 }

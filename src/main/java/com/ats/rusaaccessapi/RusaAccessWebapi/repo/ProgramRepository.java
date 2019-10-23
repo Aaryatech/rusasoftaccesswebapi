@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Program;
 
-
 public interface ProgramRepository extends JpaRepository<Program, Integer>{
  
 	@Transactional
