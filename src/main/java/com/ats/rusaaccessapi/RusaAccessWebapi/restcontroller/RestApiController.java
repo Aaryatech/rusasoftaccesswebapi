@@ -31,11 +31,15 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.GetInstituteList;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Info;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Institute;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Principal;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.Program;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.ProgramType;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.Staff;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.UserList;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.UserLogin;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.AdminLoginLogRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.GetChangePrincipalDetailsRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.ProgramRepository;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.ProgramTypeRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.StaffRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.UserListRepository;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.UserService;
@@ -525,6 +529,46 @@ public class RestApiController {
 			inf.setMessage("Fail");
 		}
 		return inf;
+	}
+	
+	@Autowired
+	ProgramTypeRepo programTypeRepo;
+
+	@RequestMapping(value = { "/getAllProgramType" }, method = RequestMethod.GET)
+	public @ResponseBody List<ProgramType> getAllProgramType() {
+
+		List<ProgramType> progTypeList = new ArrayList<>();
+
+		try {
+		progTypeList = programTypeRepo.findByDelStatusAndIsActiveAndSequenceNotIn(1	, 1, "0");	
+
+		} catch (Exception e) {
+			System.err.println("Exce in getAllProgramType  " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return progTypeList;
+
+	}
+	
+	@Autowired
+	ProgramRepository programRepository;
+	@RequestMapping(value = { "/getProgramByProgramTypeId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Program> getProgramByProgramTypeId(@RequestParam("programTypeId") int programTypeId,@RequestParam("instituteId") int instituteId ) {
+
+		List<Program> list = new ArrayList<Program>();
+
+		try {
+
+			list = programRepository.findByProgramTypeAndDelStatusAndInstituteId(programTypeId, 1, instituteId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
 	}
 
 }
