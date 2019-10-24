@@ -45,6 +45,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GenderEquityProg;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GetAluminiEngagementReport;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GetAvgStudYearwise;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GetMissions;
+import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GetProgram;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GetTeachersUsingICT;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GetVisions;
 import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.GovtScheme;
@@ -127,6 +128,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GenderEquityProgRep
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GetAluminiEngagementReportRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GetAvgStudYearwiseRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GetMissionsRepo;
+import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GetProgramRepository;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GetTeachersUsingICTRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GetVisionsRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.GovtSchemeRepo;
@@ -177,7 +179,7 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.TrainProgForTeacher
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.TrainProgOrgnizedForTeachRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.UniversalValPromotRepo;
 import com.ats.rusaaccessapi.RusaAccessWebapi.repo.reportnew.ValueAddedCoursesReportRepo;
- 
+   
  
 
 @RestController
@@ -2965,8 +2967,27 @@ public class ReportNewApiController {
 		return libResp;
 	}
 	
+	@Autowired
+	GetProgramRepository getProgramRepository;
+
  	
- 	
+	@RequestMapping(value = { "/getProgramByProgramId" }, method = RequestMethod.POST)
+	public @ResponseBody GetProgram getProgramByProgramId(@RequestParam("programId") int programId) {
+
+		GetProgram program = new GetProgram();
+
+		try {
+
+			program = getProgramRepository.findByProgramId(programId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return program;
+
+	}
  	
 	
 	
