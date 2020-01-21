@@ -103,22 +103,34 @@ public class EmailUtility {
 				
 				//
 				
-				map.add("senderID", "RUSAMH");
-				map.add("user", "spdrusamah@gmail.com:Cyber@mva");
-				map.add("receipientno", phoneNo.trim());
-				map.add("dcs", "0");
-				map.add("msgtxt","User Registration Successful for RUSA Software \n Username: " + userName + "\n Password: " + pass);
-				map.add("state", "4");
+			/*
+			 * map.add("senderID", "RUSAMH"); map.add("user",
+			 * "spdrusamah@gmail.com:Cyber@mva"); map.add("receipientno", phoneNo.trim());
+			 * map.add("dcs", "0"); map.add(
+			 * "msgtxt","User Registration Successful for RUSA Software \n Username: " +
+			 * userName + "\n Password: " + pass); map.add("state", "4");
+			 * 
+			 * 
+			 * //String response =
+			 * restTemplate.postForObject("http://control.bestsms.co.in/api/sendhttp.php",
+			 * map, String.class);
+			 * 
+			 * String response = restTemplate.postForObject(
+			 * "http://api.mVaayoo.com/mvaayooapi/MessageCompose", map, String.class);
+			 */
+String msg="User Registration Successful for RUSA Software \n Username: " + userName + "\n Password: " + pass;
 				
-				
-				//String response = restTemplate.postForObject("http://control.bestsms.co.in/api/sendhttp.php", map, String.class);
-				
-				String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
-						String.class);	
-				
+				map.add("username", "rusamah-wb");
+				map.add("password", "Rus@@123456");
+				map.add("senderid", "MHRUSA");
+				map.add("mobileno", phoneNo.trim());
+				map.add("content", msg); 
+				map.add("smsservicetype", "singlemsg"); 
+				String sms = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
+				map, String.class);
 				 
 				info.setError(false);
-				info.setMessage(response);
+				info.setMessage(sms);
 			  
 			}catch (Exception e) {
 				
@@ -140,18 +152,26 @@ public class EmailUtility {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			
 			
-			map.add("senderID", "RUSAMH");
-			map.add("user", "spdrusamah@gmail.com:Cyber@mva");
-			map.add("receipientno", phoneNo.trim());
-			map.add("dcs", "0");
-			map.add("msgtxt",msg + " " +OTP);
-			map.add("state", "4"); 
+			/*
+			 * map.add("senderID", "RUSAMH"); map.add("user",
+			 * "spdrusamah@gmail.com:Cyber@mva"); map.add("receipientno", phoneNo.trim());
+			 * map.add("dcs", "0"); map.add("msgtxt",msg + " " +OTP); map.add("state", "4");
+			 * 
+			 * String response = restTemplate.postForObject(
+			 * "http://api.mVaayoo.com/mvaayooapi/MessageCompose", map, String.class);
+			 */
 			
-			String response = restTemplate.postForObject("http://api.mVaayoo.com/mvaayooapi/MessageCompose", map,
-					String.class);	
-			
+			map.add("username", "rusamah-wb");
+			map.add("password", "Rus@@123456");
+			map.add("senderid", "MHRUSA");
+			map.add("mobileno", phoneNo.trim());
+			map.add("content", msg+ " " +OTP); 
+			map.add("smsservicetype", "singlemsg"); 
+			String sms = restTemplate.postForObject("https://msdgweb.mgov.gov.in/esms/sendsmsrequest",
+			map, String.class);
+			 
 			info.setError(false);
-			info.setMessage(response);
+			info.setMessage(sms);
 		  
 		}catch (Exception e) {
 			
