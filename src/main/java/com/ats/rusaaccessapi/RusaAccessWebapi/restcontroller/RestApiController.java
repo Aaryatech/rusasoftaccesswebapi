@@ -1,5 +1,7 @@
 package com.ats.rusaaccessapi.RusaAccessWebapi.restcontroller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -386,6 +388,19 @@ public class RestApiController {
 
 				String userName = getAlphaNumericString(7);
 				String pass = getAlphaNumericString(7);
+				String hashtext = new String();
+				
+				try {
+					MessageDigest md = MessageDigest.getInstance("MD5");
+					byte[] messageDigest = md.digest(pass.getBytes());
+					BigInteger number = new BigInteger(1, messageDigest);
+					hashtext = number.toString(16);
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+				
 				System.err.println("username  " + userName + "\n  pass  " + pass);
 
 				/*
@@ -413,7 +428,8 @@ public class RestApiController {
 				Staff staff = staffRepo.findByDelStatusAndIsActiveAndIsBlockedAndInstituteId(1, 1, 0,
 						instIdList.get(i));
 				System.out.println("Pass==" + staff + "-------------" + pass);
-				staff.setPassword(getAlphaNumericString(7));
+				//staff.setPassword(getAlphaNumericString(7));
+				staff.setPassword(hashtext);
 				staffRepo.save(staff);
 
 				insResp = instituteRepo.findByInstituteId(instIdList.get(i));
@@ -431,9 +447,9 @@ public class RestApiController {
 				// princi.getPhoneNo());
 
 				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, staff.getEmail(), mailsubject,
-						staff.getEmail(), staff.getPassword());
+						staff.getEmail(), pass);
 
-				Info smsRes = EmailUtility.sendMsg(staff.getEmail(), staff.getPassword(), staff.getContactNo());
+				Info smsRes = EmailUtility.sendMsg(staff.getEmail(), pass, staff.getContactNo());
 
 				/*
 				 * final String emailSMTPserver = "smtp.gmail.com"; final String emailSMTPPort =
