@@ -37,5 +37,5 @@ public interface InstituteRepo extends JpaRepository<Institute, Integer> {
 	
 	Institute findByAisheCodeAndDelStatus(String aisheCode,int delStatus);
 	
-	
+	Institute findByAisheCode(String aisheCode);
 }
