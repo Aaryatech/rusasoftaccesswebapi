@@ -16,7 +16,7 @@ public interface InstituteMasterRepo extends JpaRepository<InstituteMaster, Inte
 	
 	@Transactional
 	@Modifying
-	@Query(value = " DELETE FROM  mh_institute_master WHERE mh_inst_id=:mhInstId ", nativeQuery = true)
+	@Query(value = " update   mh_institute_master set aishe_code=0 WHERE mh_inst_id=:mhInstId ", nativeQuery = true)
 	int deleteMhInstMaster(@Param("mhInstId") int mhInstId);
 
 }

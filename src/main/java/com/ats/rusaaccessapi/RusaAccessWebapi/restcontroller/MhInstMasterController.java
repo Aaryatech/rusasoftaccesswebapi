@@ -44,6 +44,8 @@ public class MhInstMasterController {
 				response = "	";
 			}
 		} catch (Exception e) {
+			response = "null";
+			e.printStackTrace();
 			System.err.println("Exc at checkAisheCodeDuplication @MhInstMasterController");
 
 		}

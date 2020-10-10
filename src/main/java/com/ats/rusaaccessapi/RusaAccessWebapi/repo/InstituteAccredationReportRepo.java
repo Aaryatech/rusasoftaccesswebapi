@@ -63,7 +63,7 @@ public interface InstituteAccredationReportRepo extends JpaRepository<InstituteA
 	 		"   'No'\n" + 
 	 		"    ) AS 'THE'\n" + 
 	 		"FROM\n" + 
-	 		"    m_institute", nativeQuery=true)
+	 		"    m_institute where is_active=1 and del_status=1 and ex_int2=1", nativeQuery=true)
 	List<InstituteAccredationReport> getInstituteAccreDetail(@Param("stkIdNacc") int stkIdNacc,@Param("stkIdNba") int stkIdNba,@Param("stkIdNirf") int stkIdNirf,@Param("stkIdThe") int stkIdThe);
 	 
 	
