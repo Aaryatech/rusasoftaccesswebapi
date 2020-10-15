@@ -12,9 +12,9 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.PerProgCbseElectiv
  
 public interface PerProgCbseElectiveCourseRepo extends JpaRepository<PerProgCbseElectiveCourse, Integer> {
 
-	@Query(value="SELECT UUID() uid, COUNT(*) as count1, m_institute.institute_name  " + 
+	@Query(value="SELECT UUID() uid,  COUNT(DISTINCT t_faculty_subject.prog_id) as count1, m_institute.institute_name  " + 
 			"FROM t_faculty_subject ,m_faculty,m_institute " + 
-			"WHERE t_faculty_subject.faculty_id=m_faculty.faculty_id AND m_faculty.institute_id=m_institute.institute_id " + 
+			"WHERE t_faculty_subject.faculty_id=m_faculty.faculty_id AND m_faculty.institute_id=m_institute.institute_id AND m_institute.institute_id=:instId " + 
 			"AND t_faculty_subject.del_status=1 AND t_faculty_subject.is_active=1 " + 
 			"AND (t_faculty_subject.sub_type=1 OR t_faculty_subject.sub_is_cbse=1) " + 
 			"UNION ALL SELECT UUID() uid, COUNT(*) as count1, m_institute.institute_name " + 

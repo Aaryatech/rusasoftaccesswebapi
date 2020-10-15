@@ -33,7 +33,7 @@ public interface StudProgressionRepo extends JpaRepository<StudProgression, Inte
 			"        AND stud_perform_final_yr.inst_id=m_institute.institute_id \n" + 
 			"        AND stud_perform_final_yr.ex_int1=m_academic_year.year_id \n" + 
 			"        AND m_institute.institute_id=:instId\n" + 
-			"        AND m_academic_year.year_id=:acYear",nativeQuery=true)
+			"        AND m_academic_year.is_current=:acYear",nativeQuery=true)
 	List<StudProgression> getAllStudProgression(@Param("instId") int instId, @Param("acYear") int acYear);
 }
 

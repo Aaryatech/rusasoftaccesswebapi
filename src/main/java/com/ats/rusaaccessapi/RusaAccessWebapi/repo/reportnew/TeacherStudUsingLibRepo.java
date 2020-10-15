@@ -39,22 +39,22 @@ public interface TeacherStudUsingLibRepo extends JpaRepository<TeacherStudUsingL
 			"    COALESCE(\n" + 
 			"        (\n" + 
 			"        SELECT\n" + 
-			"            m_library_info.avg_teacher\n" + 
+			"            IFNULL(m_library_info.avg_teacher,0)\n" + 
 			"        FROM\n" + 
 			"            m_library_info\n" + 
 			"        WHERE\n" + 
-			"            m_institute.institute_id = m_library_info.institute_id AND m_library_info.del_status = 1\n" + 
+			"            m_institute.institute_id = m_library_info.institute_id and m_library_info.ac_year_id=m_academic_year.year_id AND m_library_info.del_status = 1\n" + 
 			"    ),\n" + 
 			"    0\n" + 
 			"    ) AS avg_teacher,\n" + 
 			"    COALESCE(\n" + 
 			"        (\n" + 
 			"        SELECT\n" + 
-			"            m_library_info.avg_student\n" + 
+			"            IFNULL(m_library_info.avg_student,0)\n" + 
 			"        FROM\n" + 
 			"            m_library_info\n" + 
 			"        WHERE\n" + 
-			"            m_institute.institute_id = m_library_info.institute_id AND m_library_info.del_status = 1\n" + 
+			"            m_institute.institute_id = m_library_info.institute_id and m_library_info.ac_year_id=m_academic_year.year_id AND m_library_info.del_status = 1\n" + 
 			"    ),\n" + 
 			"    0\n" + 
 			"    ) AS avg_student,\n" + 

@@ -25,7 +25,8 @@ public interface PlagarismCodeEthicsReportRepo extends JpaRepository<PlagarismCo
 			"    m_academic_year,\n" + 
 			"    m_institute\n" + 
 			"WHERE\n" + 
-			"    m_institute.institute_id = plagiarism_code_ethics.inst_id AND m_academic_year.year_id = plagiarism_code_ethics.ac_year_id AND plagiarism_code_ethics.ac_year_id IN(:acYearList)  AND plagiarism_code_ethics.inst_id =:instId \n" + 
+			"    m_institute.institute_id = plagiarism_code_ethics.inst_id AND m_academic_year.year_id = plagiarism_code_ethics.ac_year_id AND plagiarism_code_ethics.ac_year_id IN(:acYearList)  AND plagiarism_code_ethics.inst_id =:instId"
+			+ " and plagiarism_code_ethics.del_status=1 and plagiarism_code_ethics.is_active=1  \n" + 
 			"\n" + 
 			"", nativeQuery=true)
 	List<PlagarismCodeEthicsReport> getAllPlagarismCodeEthicsReport(@Param("instId")int instId,@Param("acYearList") List<Integer> acYearList);

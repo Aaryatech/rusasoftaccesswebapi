@@ -28,9 +28,9 @@ public interface DifferentlyAbldStudReportRepo extends JpaRepository<Differently
 			"   m_institute.institute_id = t_program_student_location.institute_id AND" + 
 			"   m_academic_year.year_id = t_program_student_location.year_id AND" + 
 			"   m_institute.institute_id =:instId AND" + 
-			"   m_academic_year.year_id =:acYear" + 
+			"   m_academic_year.year_id  IN (:acYear) " + 
 			"   GROUP BY t_program_student_location.year_id",nativeQuery=true)
-	List<DifferentlyAbldStudReport> getAllDifferentlyAbledStud(@Param("instId")int instId, @Param("acYear")int acYear, @Param("stkId") int stkId);
+	List<DifferentlyAbldStudReport> getAllDifferentlyAbledStud(@Param("instId")int instId, @Param("acYear")List<Integer> acYear, @Param("stkId") int stkId);
 
 }
 

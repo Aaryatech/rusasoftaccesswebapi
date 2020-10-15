@@ -23,7 +23,7 @@ public interface InitivAddrsLoctnAdvDisadvRepo extends JpaRepository<InitivAddrs
 			"WHERE specific_local_advntg_disadvntg.inst_id=m_institute.institute_id AND " + 
 			"specific_local_advntg_disadvntg.ac_year_id=m_academic_year.year_id AND " + 
 			"specific_local_advntg_disadvntg.del_status=1 AND specific_local_advntg_disadvntg.is_active=1 AND " + 
-			"specific_local_advntg_disadvntg.inst_id=:instId AND m_academic_year.year_id=:acYearId",nativeQuery=true)
+			"specific_local_advntg_disadvntg.inst_id=:instId AND m_academic_year.year_id IN (:acYearId)",nativeQuery=true)
 	
-			List<InitivAddrsLoctnAdvDisadv> getAllInitivAddrsLoctnAdvDisadv(@Param("instId") int instId,@Param ("acYearId") int acYearId);
+			List<InitivAddrsLoctnAdvDisadv> getAllInitivAddrsLoctnAdvDisadv(@Param("instId") int instId,@Param("acYearId") List<Integer> acYearId);
 }

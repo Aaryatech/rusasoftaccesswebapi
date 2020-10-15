@@ -27,7 +27,7 @@ public interface OtherThanGovtSchemeRepo extends JpaRepository<OtherThanGovtSche
 			"    m_academic_year,\n" + 
 			"    t_institute_info_detail\n" + 
 			"WHERE\n" + 
-			"    t_institute_schemes.institute_id =:instId AND t_institute_schemes.year_id IN(:acYrList) AND m_academic_year.year_id = t_institute_schemes.year_id AND m_institute.institute_id = t_institute_schemes.institute_id AND t_institute_schemes.del_status = 1 AND t_institute_schemes.is_active = 1 AND t_institute_info_detail.institute_id = t_institute_schemes.institute_id AND t_institute_info_detail.year_id = t_institute_schemes.year_id\n" + 
+			"    t_institute_schemes.institute_id =:instId AND t_institute_schemes.year_id IN(:acYrList) AND m_academic_year.year_id = t_institute_schemes.year_id AND m_institute.institute_id = t_institute_schemes.institute_id AND t_institute_schemes.del_status = 1 AND t_institute_schemes.is_active = 1 AND t_institute_info_detail.institute_id = t_institute_schemes.institute_id AND t_institute_info_detail.year_id = t_institute_schemes.year_id and t_institute_info_detail.del_status=1\n" + 
 			"ORDER BY\n" + 
 			"    t_institute_schemes.year_id ASC",nativeQuery=true)
 	List<OtherThanGovtScheme> getAllOtherThanGovtScheme(@Param("instId")int instId,@Param("acYrList") List<Integer> acYrList);

@@ -19,7 +19,7 @@ public interface StudQualifyingExamReportRepo extends JpaRepository<StudQualifyi
 			"    stud_qualifying_exam.no_stud_appeared,\n" + 
 			"    stud_qualifying_exam.no_stud_qualified,\n" + 
 			"     m_institute.institute_name,\n" + 
-			"    ( ( stud_qualifying_exam.no_stud_qualified/stud_qualifying_exam.no_stud_appeared)*100) as prcnt,\n" + 
+			"    IFNULL(( ( stud_qualifying_exam.no_stud_qualified/stud_qualifying_exam.no_stud_appeared)*100),0) as prcnt,\n" + 
 			"     \n" + 
 			"    m_academic_year.academic_year\n" + 
 			"FROM\n" + 

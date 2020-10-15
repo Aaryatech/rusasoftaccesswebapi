@@ -13,7 +13,9 @@ import com.ats.rusaaccessapi.RusaAccessWebapi.model.reportnew.ExpndturOnPhysclAc
 public interface ExpndturOnPhysclAcademicSupprtRepo extends JpaRepository<ExpndturOnPhysclAcademicSupprt, Integer>{
 
 	@Query(value="SELECT UUID() AS unq_id, (t_physical_facility_budget.budget_utilized + t_academic_budget.budget_utilized) AS expd_on_phy_acad, " + 
-			"		(t_physical_facility_budget.ex_int1 + t_academic_budget.ex_int1) AS ttl_expd," + 
+			"		(t_physical_facility_budget.ex_int1 + t_academic_budget.ex_int1) AS ttl_expd," +
+			"		(t_physical_facility_budget.budget_allocated + t_academic_budget.budget_allocated) AS budget_allocated," + 
+
 			"	m_financial_year.fin_year, " + 
 			"        m_institute.institute_name " + 
 			"FROM t_physical_facility_budget," + 

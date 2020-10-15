@@ -36,26 +36,17 @@ public interface AvgEnrollmentPrcntRepo extends JpaRepository<AvgEnrollmentPrcnt
 	 */
 	
 
-	@Query(value="SELECT" + 
-			"        m_academic_year.academic_year," + 
-			"        m_academic_year.year_id," + 
-			"        m_institute.institute_name," + 
-			"        SUM(t_prog_sanc_intake.sanc_intake) AS total_sanct_intake," + 
-			"        t_institute_info_detail.no_current_admited_stnt AS no_current_admited_stnt" + 
-			"    FROM" + 
-			"  		 t_prog_sanc_intake," + 
-			"        t_institute_info_detail," + 
-			"        m_academic_year," + 
-			"        m_institute      " + 
-			"    WHERE" + 
-			"   	  t_prog_sanc_intake.inst_id=t_institute_info_detail.institute_id AND" + 
-			"    	  t_prog_sanc_intake.ac_year_id=t_institute_info_detail.year_id AND   " + 
-			"         t_prog_sanc_intake.del_status=1 AND" + 
-			"         t_prog_sanc_intake.is_active=1 AND" + 
-			"         t_institute_info_detail.institute_id=m_institute.institute_id AND" + 
-			"         t_institute_info_detail.year_id=m_academic_year.year_id AND" + 
-			"         m_academic_year.year_id IN (:acYearList) " + 
-			"        AND m_institute.institute_id=:instId",nativeQuery=true)
+	@Query(value="SELECT m_academic_year.academic_year,  m_academic_year.year_id,  m_institute.institute_name,\n" + 
+			" " + 
+			"COALESCE(( SELECT SUM(t_prog_sanc_intake.sanc_intake) FROM t_prog_sanc_intake WHERE t_prog_sanc_intake.inst_id=m_institute.institute_id and t_prog_sanc_intake.ac_year_id=m_academic_year.year_id AND t_prog_sanc_intake.del_status=1),0)\n" + 
+			" AS total_sanct_intake, " + 
+			" " + 
+			" COALESCE(( SELECT t_institute_info_detail.no_current_admited_stnt FROM t_institute_info_detail WHERE\n" + 
+			"           t_institute_info_detail.institute_id=m_institute.institute_id AND t_institute_info_detail.year_id=m_academic_year.year_id AND t_institute_info_detail.del_status=1\n" + 
+			"          ),0) AS no_current_admited_stnt\n" + 
+			"          FROM m_institute,m_academic_year\n" + 
+			"          WHERE m_institute.institute_id=:instId and m_academic_year.year_id in (:acYearList) \n" + 
+			"          GROUP by m_academic_year.year_id",nativeQuery=true)
 
 	List<AvgEnrollmentPrcnt> getAvgEnrollmentPrcnt(@Param("instId")   int instId,@Param("acYearList")   List<Integer> acYearList);
 
