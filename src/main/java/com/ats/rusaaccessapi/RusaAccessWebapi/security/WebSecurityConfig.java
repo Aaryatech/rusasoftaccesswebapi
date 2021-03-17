@@ -1,5 +1,6 @@
 package com.ats.rusaaccessapi.RusaAccessWebapi.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -26,5 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 						.hasRole("USER").antMatchers("/**").hasRole("ADMIN").and()
 						.csrf().disable().headers().frameOptions().disable();
 			}
-
+			
+			 
+			
 }
